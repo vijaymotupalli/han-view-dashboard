@@ -19,7 +19,7 @@ After GitHub Pages is enabled:
    - **Branch:** `main`
    - **Folder:** `/ (root)`
 4. Click **Save**
-5. Wait 1–2 minutes, then visit  
+5. Wait 1–2 minutes, then visit
    https://vijaymotupalli.github.io/han-view-dashboard/
 
 No build step is required — the site is vanilla HTML/CSS/JS.
@@ -28,14 +28,16 @@ No build step is required — the site is vanilla HTML/CSS/JS.
 
 Edit or replace `data/latest.json` on `main`. The dashboard fetches `./data/latest.json` on every page load (`cache: no-store`).
 
-You can update the JSON via GitHub’s web editor, a local commit/push, or any API that writes to the repo.
+You can update the JSON via GitHub's web editor, a local commit/push, or any API that writes to the repo.
 
 ## Files
 
 | Path | Role |
 |------|------|
 | `index.html` | App shell |
-| `styles.css` | Dark theme, responsive layout |
+| `styles.css` | Dark theme base styles |
+| `theme.css` | Layout / table / card styles |
+| `lib.js` | Shared helpers |
 | `app.js` | Fetch + render |
 | `data/latest.json` | Live data payload |
 | `favicon.svg` | Brand mark |
@@ -57,7 +59,7 @@ Top-level fields:
 
 ### `dashboard[].class` values
 
-`high_conviction` | `watchlist` | `avoid`  
+`high_conviction` | `watchlist` | `avoid`
 (Table sorts high conviction → watchlist → avoid.)
 
 ### Dashboard row fields
