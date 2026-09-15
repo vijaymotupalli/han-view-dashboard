@@ -27,7 +27,7 @@
 
     return (
       '<div class="card-cols">' +
-      '<div class="col-box"><h4>Han\'s view</h4><dl class="kv">' +
+      '<div class="col-box"><h4>Primary view</h4><dl class="kv">' +
       '<dt>Summary</dt><dd style="font-family:var(--font)">' +
       escapeHtml(han.summary) +
       "</dd>" +
@@ -125,7 +125,7 @@
 
     if (!hanData) {
       root.innerHTML =
-        '<div class="panel market-notice"><strong>Han View unavailable.</strong> Could not load <code>data/latest.json</code>.</div>';
+        '<div class="panel market-notice"><strong>Stocks feed unavailable.</strong> Could not load protected feed data.</div>';
       return;
     }
 
@@ -214,7 +214,7 @@
       renderCompactStrip(hanData.best_opportunity) +
       '<section class="section" aria-labelledby="dashboard-title">' +
       '<div class="section-head">' +
-      '<h2 id="dashboard-title">Han View</h2>' +
+      '<h2 id="dashboard-title">Trade Desk</h2>' +
       '<p class="section-sub">High conviction → watchlist → avoid · click a row for deep analysis · ticker &amp; price open on Robinhood</p>' +
       "</div>" +
       '<div class="table-wrap panel">' +
