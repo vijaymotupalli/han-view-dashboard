@@ -10,6 +10,12 @@
     if (!res.ok) throw new Error("HTTP " + res.status + " fetching " + url);
     return res.json();
   }
+  function postTimeMs(row) {
+    const raw = row && row.post_time_et;
+    if (!raw) return 0;
+    const t = Date.parse(raw);
+    return Number.isNaN(t) ? 0 : t;
+  }
   function renderHero(best) {
     if (!best) { $("#hero").innerHTML = "<p>No best opportunity in data.</p>"; return; }
     const actionClass = "action-" + escapeHtml(best.action || "WATCH_ONLY");
@@ -30,7 +36,11 @@
       robinhoodLink(best.ticker, "Open on Robinhood", "meta-chip rh-chip") + '</div>';
   }
   function renderDashboard(rows) {
+    // Newest Han post first; class only as a tie-breaker
     const sorted = [...(rows || [])].sort((a, b) => {
+      const tb = postTimeMs(b);
+      const ta = postTimeMs(a);
+      if (tb !== ta) return tb - ta;
       const ca = CLASS_ORDER[a.class] ?? 99;
       const cb = CLASS_ORDER[b.class] ?? 99;
       if (ca !== cb) return ca - cb;
@@ -61,6 +71,7 @@
   function renderTickerCards(tickers) {
     const root = $("#ticker-cards");
     if (!tickers || !tickers.length) { root.innerHTML = "<p class='section-sub'>No ticker details.</p>"; return; }
+    // Prefer order from data (publisher should already be newest-first)
     root.innerHTML = tickers.map((t, idx) => {
       const han = t.han || {};
       const analysis = t.analysis || {};
