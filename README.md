@@ -3,13 +3,13 @@
 Dark-mode-first, mobile-friendly static dashboard with a **two-tab** layout:
 
 - **Market** — Cary market sentiment, signal score, outlook chips, and a news list of `top_stories` (with citations / links when present)
-- **Stocks** — Trade Desk table (expandable rows for deep analysis) + compact best-opportunity strip
+- **Stocks** — Trade Desk table (expandable rows for deep analysis / primary trader notes) + compact best-opportunity strip
 
 **Not financial advice.** This site is for research and educational purposes only. Trading involves risk of loss.
 
-Feeds are stored in **Supabase** (`public.dashboard_feeds`) with RLS: **authenticated SELECT only**. The static GitHub Pages site uses **Google OAuth** (primary) plus magic-link auth (email OTP fallback) via the public anon key.
+Feeds are stored in **Supabase** (`public.dashboard_feeds`) with RLS: **authenticated SELECT only**. The static GitHub Pages site uses **Google OAuth** (primary) plus optional magic-link auth (email OTP) via the public anon key.
 
-> Migration note: repo folder / Pages path may still use the historical `han-view-dashboard` name; UI branding is **Trade Desk**. Feed row ids `han_view` and `cary_market` are unchanged DB keys.
+> The GitHub repo / Pages path is still `han-view-dashboard`; the product name in the UI is **Trade Desk**. Prefer feed id `stocks` for the Stocks tab (legacy id `han_view` is still accepted by the client). Market feed id remains `cary_market`.
 
 ## Live site
 
@@ -49,7 +49,7 @@ Also enable **Email** provider / magic link (OTP) under Authentication → Provi
 
 Then open the live site and use **Email me a magic link** if you prefer email OTP. After you open the email link, you return signed in and feeds load from Supabase.
 
-`config.js` holds `SUPABASE_URL` + `SUPABASE_ANON_KEY` (anon is public by design with RLS). **Never commit the `service_role` key.**
+`config.js` holds `SUPABASE_URL` + `SUPABASE_ANON_KEY` on `window.TRADE_DESK_SUPABASE` (anon is public by design with RLS). **Never commit the `service_role` key.**
 
 ## Enable GitHub Pages
 
@@ -68,20 +68,29 @@ No build step is required — the site is vanilla HTML/CSS/JS (+ Supabase JS fro
 ## UI notes
 
 - Sticky tab bar: **Market | Stocks** (`aria-selected` on semantic buttons)
-- Default tab: Market if Cary feed loads, else Stocks; last tab remembered in `localStorage` key `han-dash-tab`
+- Default tab: Market if Cary feed loads, else Stocks; last tab remembered in `localStorage` key `trade-desk-tab` (reads legacy `han-dash-tab` once and migrates)
 - Unauthenticated visitors see a centered **Trade Desk** login card: **Sign in with Google** first, then optional magic-link form (no Market/Stocks data)
-- Authenticated users: header shows email + **Sign out**; app fetches `dashboard_feeds` and maps `han_view` → Stocks, `cary_market` → Market
+- Authenticated users: header shows email + **Sign out**; app fetches `dashboard_feeds` and maps `stocks` (or legacy `han_view`) → Stocks, `cary_market` → Market
 - Market news items show `source_name` (citation) and a **Read full story** link when `url` is present; otherwise muted “No link” (no invented URLs)
 - Fed / snapshot / levels / scenarios / catalysts live in a collapsible **Details** section (closed by default)
 - Stocks table sorts `high_conviction` → `watchlist` → `avoid`; click a row to expand inline analysis from `tickers[]`
+- Expand panels show **Primary view** (from payload `primary` or legacy `han`) plus **My analysis**
 - Robinhood helpers: ticker & current price link to `https://robinhood.com/stocks/{TICKER}`
 - `[hidden]` CSS fix preserved so tab panels / login / auth chrome stay correctly hidden
 
-## Update data
+## Update data (publish flow)
 
-Live payloads live in Supabase table `public.dashboard_feeds` (ids `han_view`, `cary_market`), not in the public JSON files.
+Live payloads live in Supabase table `public.dashboard_feeds` (ids `stocks` or legacy `han_view`, plus `cary_market`), not in the public JSON files.
 
 Repo stubs `data/latest.json` and `data/market.json` are placeholders (`login_required`) so raw GitHub URLs no longer leak full feeds. Upsert new payloads into Supabase (service role / SQL / MCP) instead of committing full JSON.
+
+**Suggested publish steps**
+
+1. Prepare Market and Stocks JSON payloads matching the schemas below.
+2. Upsert into `public.dashboard_feeds`:
+   - `id = 'cary_market'` → Market tab
+   - `id = 'stocks'` → Stocks tab (preferred; client still accepts `han_view` if `stocks` is missing)
+3. Open the live site signed in and confirm both tabs refresh (no Pages redeploy needed for feed-only updates).
 
 ## Files
 
@@ -89,13 +98,13 @@ Repo stubs `data/latest.json` and `data/market.json` are placeholders (`login_re
 |------|------|
 | `index.html` | App shell (login gate + two-tab layout) |
 | `login.css` | Centered premium Google + magic-link auth screen |
-| `config.js` | Public Supabase URL + anon key |
+| `config.js` | Public Supabase URL + anon key (`TRADE_DESK_SUPABASE`) |
 | `styles.css` | Dark theme base + tab bar + auth helpers (`[hidden]` panel fix) |
 | `theme.css` | Stocks table / strip / expand styles |
 | `market.css` | Market tab + news list styles |
-| `lib.js` | Shared helpers (`robinhoodUrl` / `robinhoodLink`) |
-| `market.js` | Market tab renderer |
-| `stocks.js` | Stocks tab renderer |
+| `lib.js` | Shared helpers (`TradeDesk`, Robinhood links, `primaryView`) |
+| `market.js` | Market tab renderer (`TradeDeskMarket`) |
+| `stocks.js` | Stocks tab renderer (`TradeDeskStocks`) |
 | `app.js` | Supabase auth (Google OAuth + magic link) + feed fetch + tab switching + footer |
 | `data/latest.json` | Placeholder (data behind auth) |
 | `data/market.json` | Placeholder (data behind auth) |
@@ -124,7 +133,7 @@ Locked fields (`schema_version: 1`):
 | `snapshot` | `{ ten_year_yield_pct, vix, vix_class, wti_usd, brent_usd, dxy, geo_risk }` |
 | `levels` | `{ spy_support[], spy_resistance[], note }` |
 
-### Stocks feed (`han_view` / former `data/latest.json`)
+### Stocks feed (`stocks` preferred; legacy `han_view` still accepted)
 
 Top-level fields:
 
@@ -133,7 +142,13 @@ Top-level fields:
 - `market_context` — e.g. `{ "fomc": "YYYY-MM-DD", "note": "..." }`
 - `best_opportunity` — compact Stocks strip (ticker, action, price)
 - `dashboard` — table rows (expandable)
-- `tickers` — deep analysis matched by ticker into row expand panels (payload may include a `han` object for the primary-view column)
+- `tickers` — deep analysis matched by ticker into row expand panels
+
+Per-ticker detail may include:
+
+- `primary` — Trade Desk stocks / primary trader notes (`summary`, `direction`, `entry`, `target`, `stop`); UI label is **Primary view**
+- `han` — legacy alias for the same object (still read if `primary` is absent)
+- `analysis` — “My analysis” column (entries, targets, opinion, risks)
 
 ### `best_opportunity.action` values
 
@@ -153,6 +168,15 @@ python3 -m http.server 5500
 ```
 
 Add `http://localhost:5500/` to Supabase Redirect URLs for Google / magic-link return.
+
+## Compatibility leftovers
+
+Intentional technical leftovers (not product branding):
+
+- Repo / Pages path: `han-view-dashboard`
+- Legacy Stocks feed id: `han_view` (client prefers `stocks`)
+- Legacy payload key: `han` on ticker details (client prefers `primary`)
+- One-time `localStorage` migrate from `han-dash-tab` → `trade-desk-tab`
 
 ## Disclaimer
 
