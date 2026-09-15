@@ -1,6 +1,9 @@
 # Han View Dashboard
 
-Dark-mode-first, mobile-friendly static trade dashboard that loads all content from `data/latest.json` at runtime.
+Dark-mode-first, mobile-friendly static dashboard that loads:
+
+- **Han View trades** from `data/latest.json`
+- **Cary market sentiment + news** from `data/market.json`
 
 **Not financial advice.** This site is for research and educational purposes only. Trading involves risk of loss.
 
@@ -26,23 +29,52 @@ No build step is required — the site is vanilla HTML/CSS/JS.
 
 ## Update data
 
+### Han View (`data/latest.json`)
+
 Edit or replace `data/latest.json` on `main`. The dashboard fetches `./data/latest.json` on every page load (`cache: no-store`).
 
-You can update the JSON via GitHub's web editor, a local commit/push, or any API that writes to the repo.
+### Cary market intelligence (`data/market.json`)
+
+**Cary publishes** `data/market.json` on `main`. The Market pulse section fetches `./data/market.json` in parallel with Han View data. If the market file is missing or fails, a small inline notice is shown and Han View still renders.
+
+Do not replace Cary's live payload with ad-hoc sample shapes — keep the locked dashboard schema (see below).
 
 ## Files
 
 | Path | Role |
 |------|------|
-| `index.html` | App shell |
-| `styles.css` | Dark theme base styles |
-| `theme.css` | Layout / table / card styles |
+| `index.html` | App shell (Market pulse above Han View hero) |
+| `styles.css` | Dark theme base styles (includes `[hidden]` panel fix) |
+| `theme.css` | Layout / table / card / market pulse styles |
 | `lib.js` | Shared helpers |
-| `app.js` | Fetch + render |
-| `data/latest.json` | Live data payload |
+| `app.js` | Parallel fetch + render |
+| `data/latest.json` | Han View trade payload |
+| `data/market.json` | Cary market intelligence payload |
 | `favicon.svg` | Brand mark |
 
-## JSON schema notes
+## `data/market.json` schema (Cary → dashboard)
+
+Locked fields Cary should publish (`schema_version: 1` preferred):
+
+| Field | Notes |
+|-------|--------|
+| `generated_at` | ISO-8601 timestamp |
+| `source` | Provenance string (e.g. `Cary market intelligence`) |
+| `disclaimer` | Optional short disclaimer shown under Market pulse |
+| `market_regime` | Regime title (UI also accepts legacy `regime`) |
+| `signal_score` | Numeric score; label bands: +60..+100 Strong Bullish, +25..+59 Bullish, −24..+24 Neutral / Mixed, −25..−59 Bearish, −60..−100 Strong Bearish |
+| `signal_label` | Display label matching the score band |
+| `outlook` | `{ spy, qqq, small_caps, semiconductors, volatility_risk }` |
+| `top_stories[]` | `{ headline, impact, strength, affected[], status? }` — `summary` accepted as fallback for status text |
+| `fed` | `{ bias, current_target, next_decision, hike_probability_pct, expected_move_bp, expected_target, key_event }` |
+| `catalysts` | `{ top_bullish, top_bearish, most_important_today, next_extreme_event: { when, what } }` |
+| `scenarios` | `bull` / `base` / `bear` with `probability_pct` + `summary` (legacy `probability` / `conditions` / `expected` also accepted) |
+| `snapshot` | `{ ten_year_yield_pct, vix, vix_class, wti_usd, brent_usd, dxy, geo_risk }` |
+| `levels` | `{ spy_support[], spy_resistance[], note }` |
+
+The UI tolerates the transitional / legacy shape (`regime`, `summary`, scenario `probability` + level strings) so older Cary publishes still render.
+
+## `data/latest.json` schema notes (Han View)
 
 Top-level fields:
 
@@ -64,14 +96,12 @@ Top-level fields:
 
 ### Dashboard row fields
 
-`ticker`, `company`, `direction`, `entry`, `current_price`, `target`, `stop`, `status`, `my_rating`, `class`, `post_url`, `post_time_et`
+ticker, company, direction, entry, current_price, target, stop, status, my_rating, class, post_url, post_time_et
 
 ### Ticker detail fields
 
 - `han`: `summary`, `direction`, `entry`, `target`, `stop`
 - `analysis`: `preferred_entry`, `aggressive_entry`, `conservative_entry`, `stop`, `targets[]`, `opinion`, `confidence`, `horizon`, `risks[]`
-
-The bundled `data/latest.json` is a **research sample** with placeholder X/Twitter post URLs.
 
 ## Local preview
 

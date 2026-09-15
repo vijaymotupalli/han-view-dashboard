@@ -45,13 +45,16 @@ code { font-family: var(--mono); font-size: 0.9em; color: var(--accent); }
 .brand h1 { margin: 0; font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; }
 .tagline { margin: 0; color: var(--text-muted); font-size: 0.8rem; }
 .header-meta { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-.sample-badge, .meta-chip, .badge, .class-pill, .action-badge {
+.sample-badge, .feed-badge, .meta-chip, .badge, .class-pill, .action-badge {
   display: inline-flex; align-items: center; gap: 0.35rem; border-radius: 999px;
   font-size: 0.75rem; font-weight: 600; letter-spacing: 0.02em; padding: 0.3rem 0.7rem;
   border: 1px solid var(--border); background: rgba(15, 23, 42, 0.7);
 }
 .sample-badge {
   color: var(--amber); border-color: rgba(251, 191, 36, 0.35); background: rgba(251, 191, 36, 0.08);
+}
+.feed-badge {
+  color: var(--green); border-color: rgba(52, 211, 153, 0.35); background: rgba(52, 211, 153, 0.1);
 }
 .meta-chip { color: var(--text-muted); font-family: var(--mono); font-weight: 500; }
 .panel {
@@ -63,7 +66,7 @@ code { font-family: var(--mono); font-size: 0.9em; color: var(--accent); }
   gap: 0.75rem; padding: 3rem 1.5rem; text-align: center; margin-bottom: 1.5rem;
 }
 .loading-panel:not([hidden]), .error-panel:not([hidden]) { display: flex; }
-.loading-panel[hidden], .error-panel[hidden], #app[hidden] { display: none !important; }
+.loading-panel[hidden], .error-panel[hidden], #app[hidden], #market-pulse[hidden] { display: none !important; }
 .error-panel { border-color: rgba(251, 113, 133, 0.35); color: var(--rose); }
 .spinner {
   width: 28px; height: 28px; border-radius: 50%;
