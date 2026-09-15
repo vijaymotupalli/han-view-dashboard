@@ -69,9 +69,11 @@ code { font-family: var(--mono); font-size: 0.9em; color: var(--accent); }
 /* Preserve: [hidden] panels must stay hidden */
 .loading-panel[hidden],
 .error-panel[hidden],
+.login-panel[hidden],
 #app[hidden],
 .tab-panel[hidden],
-.expand-row[hidden] {
+.expand-row[hidden],
+#auth-user[hidden] {
   display: none !important;
 }
 .error-panel { border-color: rgba(251, 113, 133, 0.35); color: var(--rose); }
@@ -130,3 +132,41 @@ code { font-family: var(--mono); font-size: 0.9em; color: var(--accent); }
   .site-header, main, .site-footer { width: min(100% - 1.25rem, var(--max)); }
   .tab-btn { padding: 0.55rem 0.75rem; font-size: 0.85rem; }
 }
+
+/* ---- Auth / login ---- */
+.auth-user { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.btn-primary, .btn-ghost {
+  appearance: none; cursor: pointer; border-radius: 999px;
+  font-family: var(--font); font-size: 0.85rem; font-weight: 600;
+  padding: 0.45rem 0.9rem; transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.btn-primary {
+  border: 0; color: var(--bg);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+.btn-primary:disabled { opacity: 0.6; cursor: wait; }
+.btn-ghost {
+  border: 1px solid var(--border); color: var(--text-muted);
+  background: rgba(15, 23, 42, 0.7);
+}
+.btn-ghost:hover { color: var(--text); border-color: var(--border-strong); }
+.login-panel {
+  display: flex; flex-direction: column; gap: 0.75rem;
+  padding: 2rem 1.5rem; margin-bottom: 1.5rem; max-width: 420px;
+}
+.login-panel[hidden] { display: none !important; }
+.login-panel h2 { margin: 0; font-size: 1.2rem; letter-spacing: -0.02em; }
+.login-copy { margin: 0; color: var(--text-muted); font-size: 0.9rem; }
+.login-form { display: flex; flex-direction: column; gap: 0.45rem; }
+.login-label { font-size: 0.75rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; }
+.login-form input[type="email"] {
+  appearance: none; width: 100%; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: rgba(7, 11, 20, 0.8);
+  color: var(--text); font-family: var(--font); font-size: 1rem;
+  padding: 0.7rem 0.85rem;
+}
+.login-form input[type="email"]:focus {
+  outline: 2px solid rgba(34, 211, 238, 0.35); border-color: var(--accent);
+}
+.login-form .btn-primary { margin-top: 0.35rem; align-self: flex-start; }
+.login-status { margin: 0; min-height: 1.25em; color: var(--text-muted); font-size: 0.875rem; }
