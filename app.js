@@ -1,17 +1,27 @@
-(() => {
-  "use strict";
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-  const { $, escapeHtml, formatGenerated, DATA_URL, MARKET_URL } = window.HanDash;
-  const { renderMarketTab } = window.HanDashMarket;
-  const { renderStocksTab } = window.HanDashStocks;
+const { $, escapeHtml, formatGenerated } = window.HanDash;
+const { renderMarketTab } = window.HanDashMarket;
+const { renderStocksTab } = window.HanDashStocks;
 
-  const TAB_KEY = "han-dash-tab";
+const TAB_KEY = "han-dash-tab";
+const cfg = window.HAN_SUPABASE || {};
 
-  async function fetchJson(url) {
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) throw new Error("HTTP " + res.status + " fetching " + url);
-    return res.json();
-  }
+if (!cfg.SUPABASE_URL || !cfg.SUPABASE_ANON_KEY) {
+  $("#loading").hidden = true;
+  $("#error").hidden = false;
+  $("#error-message").textContent = "Missing Supabase config (config.js).";
+} else {
+  const supabase = createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY, {
+    auth: {
+      detectSessionInUrl: true,
+      persistSession: true,
+      autoRefreshToken: true,
+      flowType: "pkce",
+    },
+  });
+
+  let dashboardLoadedForUser = null;
 
   function setTab(tab) {
     const marketBtn = $("#tab-btn-market");
@@ -92,7 +102,11 @@
     const badgeTimes = [];
     if (marketData && marketData.generated_at) badgeTimes.push(formatGenerated(marketData.generated_at));
     if (hanData && hanData.generated_at) badgeTimes.push(formatGenerated(hanData.generated_at));
-    $("#generated-badge").textContent = badgeTimes[0] || "-";
+    const badge = $("#generated-badge");
+    if (badge) {
+      badge.textContent = badgeTimes[0] || "-";
+      badge.hidden = false;
+    }
 
     const feedBadge = $("#feed-badge");
     if (feedBadge) {
@@ -108,39 +122,144 @@
     }
   }
 
-  async function load() {
-    bindTabs();
-
-    const [marketResult, hanResult] = await Promise.allSettled([
-      fetchJson(MARKET_URL),
-      fetchJson(DATA_URL),
-    ]);
-
+  function showLoginOnly() {
+    dashboardLoadedForUser = null;
     $("#loading").hidden = true;
-
-    const marketData = marketResult.status === "fulfilled" ? marketResult.value : null;
-    const hanData = hanResult.status === "fulfilled" ? hanResult.value : null;
-
-    if (marketResult.status === "rejected") console.error(marketResult.reason);
-    if (hanResult.status === "rejected") console.error(hanResult.reason);
-
-    if (!marketData && !hanData) {
-      $("#error").hidden = false;
-      $("#error-message").textContent =
-        "Failed to load both data/market.json and data/latest.json. Serve over HTTP so fetch works.";
-      $("#app").hidden = true;
-      renderFooter(null, null);
-      return;
-    }
-
+    $("#login").hidden = false;
+    $("#app").hidden = true;
     $("#error").hidden = true;
-    $("#app").hidden = false;
-
-    renderMarketTab(marketData);
-    renderStocksTab(hanData);
-    setTab(pickDefaultTab(marketData, hanData));
-    renderFooter(hanData, marketData);
+    $("#auth-user").hidden = true;
+    const badge = $("#generated-badge");
+    if (badge) badge.hidden = true;
+    const feedBadge = $("#feed-badge");
+    if (feedBadge) feedBadge.hidden = true;
+    $("#footer-meta").innerHTML = "<div>Sign in to load protected feeds.</div>";
   }
 
-  load();
-})();
+  function showAuthedChrome(email) {
+    $("#login").hidden = true;
+    $("#auth-user").hidden = false;
+    $("#user-email").textContent = email || "Signed in";
+  }
+
+  async function fetchFeeds() {
+    const { data, error } = await supabase
+      .from("dashboard_feeds")
+      .select("id,payload,updated_at");
+    if (error) throw error;
+    let hanData = null;
+    let marketData = null;
+    (data || []).forEach((row) => {
+      if (row.id === "han_view") hanData = row.payload;
+      if (row.id === "cary_market") marketData = row.payload;
+    });
+    return { hanData, marketData };
+  }
+
+  async function loadDashboard() {
+    $("#loading").hidden = false;
+    $("#loading").querySelector("p").textContent = "Loading protected feeds...";
+    $("#error").hidden = true;
+
+    try {
+      const { hanData, marketData } = await fetchFeeds();
+      $("#loading").hidden = true;
+
+      if (!marketData && !hanData) {
+        $("#error").hidden = false;
+        $("#error-message").textContent =
+          "No feed rows returned. Check RLS and that you are signed in.";
+        $("#app").hidden = true;
+        renderFooter(null, null);
+        return;
+      }
+
+      $("#error").hidden = true;
+      $("#app").hidden = false;
+      renderMarketTab(marketData);
+      renderStocksTab(hanData);
+      setTab(pickDefaultTab(marketData, hanData));
+      renderFooter(hanData, marketData);
+    } catch (err) {
+      console.error(err);
+      $("#loading").hidden = true;
+      $("#app").hidden = true;
+      $("#error").hidden = false;
+      $("#error-message").textContent =
+        (err && (err.message || String(err))) || "Failed to load feeds from Supabase.";
+      renderFooter(null, null);
+    }
+  }
+
+  async function onSignedIn(session) {
+    const uid = session.user && session.user.id;
+    showAuthedChrome(session.user && session.user.email);
+    if (uid && dashboardLoadedForUser === uid) return;
+    dashboardLoadedForUser = uid || "session";
+    await loadDashboard();
+  }
+
+  function bindAuthUi() {
+    const form = $("#login-form");
+    const status = $("#login-status");
+    const submit = $("#login-submit");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = ($("#login-email").value || "").trim();
+      if (!email) return;
+      status.textContent = "Sending magic link...";
+      submit.disabled = true;
+      try {
+        const redirectTo = window.location.origin + window.location.pathname;
+        const { error } = await supabase.auth.signInWithOtp({
+          email,
+          options: { emailRedirectTo: redirectTo },
+        });
+        if (error) throw error;
+        status.textContent =
+          "Check your email for the magic link. After you click it, you will return here signed in.";
+      } catch (err) {
+        console.error(err);
+        status.textContent =
+          (err && err.message) || "Could not send magic link. Check Auth redirect URLs.";
+      } finally {
+        submit.disabled = false;
+      }
+    });
+
+    $("#sign-out-btn").addEventListener("click", async () => {
+      await supabase.auth.signOut();
+      $("#app").hidden = true;
+      showLoginOnly();
+      status.textContent = "Signed out.";
+    });
+  }
+
+  async function boot() {
+    bindTabs();
+    bindAuthUi();
+
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === "SIGNED_OUT") {
+        showLoginOnly();
+        return;
+      }
+      if ((event === "SIGNED_IN" || event === "INITIAL_SESSION") && session) {
+        await onSignedIn(session);
+      }
+    });
+
+    const { data, error } = await supabase.auth.getSession();
+    if (error) console.error(error);
+
+    const session = data && data.session;
+    if (!session) {
+      showLoginOnly();
+      return;
+    }
+    await onSignedIn(session);
+  }
+
+  boot();
+}
