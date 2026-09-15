@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-09-15T13:59:34-04:00",
+  "generated_at": "2026-09-15T15:21:42-04:00",
   "source": "x.com/Han_Akamatsu via box browser",
   "market_context": {
     "fomc": "2026-09-16",
-    "note": "FOMC tomorrow. New afternoon updates: AVGO needs $340 reclaim; MU must hold $920. Han light on chasing QQQ/SPY until 710/762 clarify."
+    "note": "FOMC tomorrow. Newest Han post: ONDS stuck under 7.5 with 7 support risk. AVGO still needs 340 reclaim; MU hold 920; CRWD pulled back toward 240 after the 247/250 push."
   },
   "best_opportunity": {
     "ticker": "CRWD",
     "action": "WAIT_FOR_PULLBACK",
-    "current_price": 243.0,
+    "current_price": 240.39,
     "preferred_entry": "238-242",
     "stop": 229,
     "targets": [
@@ -18,33 +18,47 @@
     ],
     "confidence": "Medium",
     "horizon": "1-3 days",
-    "han_view": "Played beautifully today; can run into short gamma stack at 247/250. Chart: 230 long-gamma pivot.",
-    "my_view": "Still the cleanest momentum setup into Han's stack, but late to the day-move into FOMC - prefer a dip."
+    "han_view": "Played beautifully; into short gamma stack 247/250. Chart: 230 long-gamma pivot (lose it opens 220).",
+    "my_view": "Pullback into preferred 238-242 zone after the day spike. Still best defined long into FOMC - do not chase if it rips without a dip."
   },
   "dashboard": [
     {
       "ticker": "CRWD",
       "company": "CrowdStrike",
       "direction": "Long",
-      "entry": "played today",
-      "current_price": 243.0,
+      "entry": "238-242 preferred",
+      "current_price": 240.39,
       "target": "247-250",
       "stop": "lose 230",
-      "status": "Holding",
+      "status": "Pullback into zone",
       "my_rating": "Buy",
       "class": "high_conviction",
       "post_url": "https://x.com/Han_Akamatsu/status/2099907118199415122",
       "post_time_et": "2026-09-15T13:04:00-04:00"
     },
     {
+      "ticker": "ONDS",
+      "company": "Ondas Holdings",
+      "direction": "Range / cautious",
+      "entry": "watch 7-7.5",
+      "current_price": 7.31,
+      "target": "hold above 7; resistance 7.5",
+      "stop": "lose 7",
+      "status": "Chipping long gamma",
+      "my_rating": "Watch",
+      "class": "watchlist",
+      "post_url": "https://x.com/Han_Akamatsu/status/2099936086105416100",
+      "post_time_et": "2026-09-15T14:59:00-04:00"
+    },
+    {
       "ticker": "AVGO",
       "company": "Broadcom",
       "direction": "Long (reclaim)",
       "entry": "reclaim/hold 340",
-      "current_price": 338.8,
+      "current_price": 339.66,
       "target": "410 Oct VEX king (watch)",
       "stop": "fail reclaim; 330/325 then 320",
-      "status": "Lost 340 Friday gamma",
+      "status": "Near 340 reclaim",
       "my_rating": "Watch",
       "class": "watchlist",
       "post_url": "https://x.com/Han_Akamatsu/status/2099916570692571615",
@@ -55,7 +69,7 @@
       "company": "Micron Technology",
       "direction": "Hold / chop",
       "entry": "hold 920",
-      "current_price": 925.58,
+      "current_price": 923.37,
       "target": "940 wall Wed",
       "stop": "lose 920",
       "status": "Holding 920",
@@ -65,11 +79,25 @@
       "post_time_et": "2026-09-15T13:19:00-04:00"
     },
     {
+      "ticker": "META",
+      "company": "Meta Platforms",
+      "direction": "Long",
+      "entry": "hold 660",
+      "current_price": 672.08,
+      "target": "667-680",
+      "stop": "lose 650",
+      "status": "Above 660 toward 680",
+      "my_rating": "Watch",
+      "class": "watchlist",
+      "post_url": "https://x.com/Han_Akamatsu/status/2099848009001398627",
+      "post_time_et": "2026-09-15T09:56:00-04:00"
+    },
+    {
       "ticker": "DELL",
       "company": "Dell Technologies",
       "direction": "Long",
       "entry": "reclaim 550",
-      "current_price": 546.6,
+      "current_price": 545.85,
       "target": "600",
       "stop": "lose 550",
       "status": "Below reclaim",
@@ -79,55 +107,13 @@
       "post_time_et": "2026-09-15T10:03:00-04:00"
     },
     {
-      "ticker": "META",
-      "company": "Meta Platforms",
-      "direction": "Long",
-      "entry": "hold 660",
-      "current_price": 667.02,
-      "target": "667-680",
-      "stop": "lose 650",
-      "status": "Holding",
-      "my_rating": "Watch",
-      "class": "watchlist",
-      "post_url": "https://x.com/Han_Akamatsu/status/2099848009001398627",
-      "post_time_et": "2026-09-15T09:56:00-04:00"
-    },
-    {
-      "ticker": "TSLA",
-      "company": "Tesla",
-      "direction": "Neutral",
-      "entry": "360 king",
-      "current_price": 357.28,
-      "target": "higher if reclaim 360",
-      "stop": "lose 355 -> 340",
-      "status": "Below king",
-      "my_rating": "Watch",
-      "class": "watchlist",
-      "post_url": "https://x.com/Han_Akamatsu/status/2099850531875246500",
-      "post_time_et": "2026-09-15T10:00:00-04:00"
-    },
-    {
-      "ticker": "COHR",
-      "company": "Coherent",
-      "direction": "Long",
-      "entry": "hold 270",
-      "current_price": 270.37,
-      "target": "rip above 270",
-      "stop": "lose 270",
-      "status": "At pivot",
-      "my_rating": "Watch",
-      "class": "watchlist",
-      "post_url": "https://x.com/Han_Akamatsu/status/2099849336272126281",
-      "post_time_et": "2026-09-15T09:58:00-04:00"
-    },
-    {
       "ticker": "UBER",
       "company": "Uber",
       "direction": "Cautious",
       "entry": "hold 71",
-      "current_price": 71.92,
+      "current_price": 71.59,
       "target": "-",
-      "stop": "lose 71 -> 65",
+      "stop": "lose 71 to 65",
       "status": "Testing 71",
       "my_rating": "Watch",
       "class": "watchlist",
@@ -139,21 +125,49 @@
       "company": "Sandisk",
       "direction": "Hold",
       "entry": "hold to 1500",
-      "current_price": 1526.96,
+      "current_price": 1517.96,
       "target": "-",
-      "stop": "lose 1500 -> 1450/1400",
-      "status": "Holding",
+      "stop": "lose 1500 to 1450/1400",
+      "status": "Above 1500",
       "my_rating": "Watch",
       "class": "watchlist",
       "post_url": "https://x.com/Han_Akamatsu/status/2099906452521640115",
-      "post_time_et": "2026-09-15T12:58:00-04:00"
+      "post_time_et": "2026-09-15T13:01:00-04:00"
+    },
+    {
+      "ticker": "SNAP",
+      "company": "Snap",
+      "direction": "Watch",
+      "entry": "above 6",
+      "current_price": 5.93,
+      "target": "6.50",
+      "stop": "fail 6",
+      "status": "Near 6",
+      "my_rating": "Watch",
+      "class": "watchlist",
+      "post_url": "https://x.com/Han_Akamatsu/status/2099892464244908242",
+      "post_time_et": "2026-09-15T12:50:00-04:00"
+    },
+    {
+      "ticker": "TSLA",
+      "company": "Tesla",
+      "direction": "Neutral",
+      "entry": "360 king",
+      "current_price": 356.26,
+      "target": "higher if reclaim 360",
+      "stop": "lose 355 to 340",
+      "status": "Below king",
+      "my_rating": "Watch",
+      "class": "watchlist",
+      "post_url": "https://x.com/Han_Akamatsu/status/2099850531875246500",
+      "post_time_et": "2026-09-15T10:00:00-04:00"
     },
     {
       "ticker": "QQQ",
       "company": "Invesco QQQ",
       "direction": "Cautious",
       "entry": "reclaim 710",
-      "current_price": 705.05,
+      "current_price": 704.47,
       "target": "bullish >710",
       "stop": "stay <709-710",
       "status": "Pre-FOMC",
@@ -167,7 +181,7 @@
       "company": "SPDR S&P 500",
       "direction": "Choppy",
       "entry": "756 support",
-      "current_price": 757.27,
+      "current_price": 757.16,
       "target": "760-762",
       "stop": "lose 756",
       "status": "Choppy",
@@ -177,25 +191,11 @@
       "post_time_et": "2026-09-15T09:40:00-04:00"
     },
     {
-      "ticker": "SNAP",
-      "company": "Snap",
-      "direction": "Watch",
-      "entry": "above 6",
-      "current_price": 5.87,
-      "target": "6.50",
-      "stop": "fail 6",
-      "status": "Pre-break",
-      "my_rating": "Watch",
-      "class": "watchlist",
-      "post_url": "https://x.com/Han_Akamatsu/status/2099892464244908242",
-      "post_time_et": "2026-09-15T12:50:00-04:00"
-    },
-    {
       "ticker": "AMZN",
       "company": "Amazon",
       "direction": "Range",
       "entry": "250-260 pin",
-      "current_price": 248.82,
+      "current_price": 248.11,
       "target": "range",
       "stop": "-",
       "status": "Range",
@@ -203,6 +203,20 @@
       "class": "watchlist",
       "post_url": "https://x.com/Han_Akamatsu/status/2099848450825142392",
       "post_time_et": "2026-09-15T09:57:00-04:00"
+    },
+    {
+      "ticker": "RKLB",
+      "company": "Rocket Lab",
+      "direction": "Watch",
+      "entry": "-",
+      "current_price": 63.37,
+      "target": "100 late 26/27",
+      "stop": "-",
+      "status": "Longer-term",
+      "my_rating": "Watch",
+      "class": "watchlist",
+      "post_url": "https://x.com/Han_Akamatsu/status/2099907799392137573",
+      "post_time_et": "2026-09-15T13:06:00-04:00"
     },
     {
       "ticker": "BSX",
@@ -217,20 +231,6 @@
       "class": "watchlist",
       "post_url": "https://x.com/Han_Akamatsu/status/2099858014987502059",
       "post_time_et": "2026-09-15T09:48:00-04:00"
-    },
-    {
-      "ticker": "RKLB",
-      "company": "Rocket Lab",
-      "direction": "Watch",
-      "entry": "-",
-      "current_price": 63.62,
-      "target": "100 late 26/27",
-      "stop": "-",
-      "status": "Longer-term",
-      "my_rating": "Watch",
-      "class": "watchlist",
-      "post_url": "https://x.com/Han_Akamatsu/status/2099907799392137573",
-      "post_time_et": "2026-09-15T13:06:00-04:00"
     },
     {
       "ticker": "NKE",
@@ -261,20 +261,6 @@
       "post_time_et": "2026-09-15T08:54:00-04:00"
     },
     {
-      "ticker": "ASST",
-      "company": "Asset Entities",
-      "direction": "Test",
-      "entry": "bounce 27",
-      "current_price": 27.66,
-      "target": "bounce = good",
-      "stop": "lose 27",
-      "status": "At king",
-      "my_rating": "Watch",
-      "class": "watchlist",
-      "post_url": "https://x.com/Han_Akamatsu/status/2099846945799901379",
-      "post_time_et": "2026-09-15T09:00:00-04:00"
-    },
-    {
       "ticker": "IREN",
       "company": "Iris Energy",
       "direction": "Choppy",
@@ -293,7 +279,7 @@
     {
       "ticker": "CRWD",
       "han": {
-        "summary": "Played beautifully today; can go into short gamma stack at 247/250. Chart annotation: 230 long-gamma pivot, 240 if holds, 220 if fails.",
+        "summary": "Played beautifully; can run into short gamma 247/250. Chart: 230 long-gamma pivot; lose it and 220 may come.",
         "direction": "Bullish",
         "entry": null,
         "target": "247-250",
@@ -301,7 +287,7 @@
       },
       "analysis": {
         "preferred_entry": "238-242",
-        "aggressive_entry": 243.0,
+        "aggressive_entry": 240.5,
         "conservative_entry": 236.0,
         "stop": 229,
         "targets": [
@@ -313,47 +299,46 @@
         "confidence": "Medium",
         "horizon": "1-3 days",
         "risks": [
-          "late entry after day-move",
-          "FOMC tomorrow"
+          "FOMC tomorrow",
+          "failed hold of 230"
         ]
       }
     },
     {
-      "ticker": "MU",
+      "ticker": "ONDS",
       "han": {
-        "summary": "Messy. $920 short gamma must hold till Wednesday or lower again. Choppy range into $940 long gamma wall/max till Wed. Friday update later.",
-        "direction": "Neutral / hold",
-        "entry": "hold 920",
-        "target": "940 wall",
-        "stop": "lose 920"
+        "summary": "Map unchanged. Grabbed 7 short gamma liquidity yesterday; now chipping on long gamma. Until past 7.5, risk of return to 7.",
+        "direction": "Neutral / range",
+        "entry": "watch 7-7.5",
+        "target": "past 7.5",
+        "stop": "lose 7"
       },
       "analysis": {
-        "preferred_entry": "WAIT_FOR_BREAKOUT above 940 or dip-hold 920",
+        "preferred_entry": "WATCH_ONLY under 7.5",
         "aggressive_entry": null,
-        "conservative_entry": 920.0,
-        "stop": 912,
+        "conservative_entry": 7.0,
+        "stop": 6.85,
         "targets": [
-          940,
-          960
+          7.5,
+          8.0
         ],
         "opinion": "Watch",
         "confidence": "Low",
-        "horizon": "1-3 days",
+        "horizon": "1-5 days",
         "risks": [
-          "choppy tape",
-          "lose 920",
-          "AI memory headline risk"
+          "fade back to 7",
+          "low-priced volatility"
         ]
       }
     },
     {
       "ticker": "AVGO",
       "han": {
-        "summary": "Lost $340 Friday gamma support; need reclaim and hold (AH reclaim OK). Below 340 short gammas 330/325 with long gamma ~320. Nearest 335 makes 330/325 more likely. October OPEX VEX king alone at $410 - one to watch for a run.",
+        "summary": "Lost 340 Friday gamma; need reclaim/hold (AH OK). Below: 330/325 short, 320 long support. Oct VEX king 410 alone.",
         "direction": "Bullish on reclaim",
         "entry": "reclaim/hold 340",
-        "target": "410 Oct (longer watch)",
-        "stop": "fail 340; watch 330/325/320"
+        "target": "410 Oct (longer)",
+        "stop": "fail 340; 330/325/320"
       },
       "analysis": {
         "preferred_entry": "338-342 on reclaim hold",
@@ -369,56 +354,53 @@
         "confidence": "Medium",
         "horizon": "1-4 weeks",
         "risks": [
-          "sitting under 340",
-          "path to 330/325",
+          "still under/at 340",
           "FOMC"
         ]
       }
     },
     {
-      "ticker": "DELL",
+      "ticker": "MU",
       "han": {
-        "summary": "Bullish for months; reclaimed 550; next target 600 short gamma king.",
-        "direction": "Bullish",
-        "entry": "reclaim 550",
-        "target": "600",
-        "stop": "lose 550"
+        "summary": "Messy. 920 short gamma must hold till Wed or lower. Choppy into 940 wall/max till Wed.",
+        "direction": "Neutral / hold",
+        "entry": "hold 920",
+        "target": "940 wall",
+        "stop": "lose 920"
       },
       "analysis": {
-        "preferred_entry": "548-555 on reclaim hold",
-        "aggressive_entry": 547.0,
-        "conservative_entry": 540.0,
-        "stop": 538,
+        "preferred_entry": "WATCH_ONLY",
+        "aggressive_entry": null,
+        "conservative_entry": 920.0,
+        "stop": 912,
         "targets": [
-          575,
-          590,
-          600
+          940,
+          960
         ],
         "opinion": "Watch",
-        "confidence": "Medium",
-        "horizon": "1-2 weeks",
+        "confidence": "Low",
+        "horizon": "1-3 days",
         "risks": [
-          "currently ~546 under reclaim",
-          "AI narrative / FOMC"
+          "lose 920",
+          "choppy tape"
         ]
       }
     },
     {
       "ticker": "META",
       "han": {
-        "summary": "Bounced off 650 long gamma king; above 660; need 660 hold toward 667 then 680 gamma max.",
+        "summary": "Bounced 650 king; above 660 toward 667 then 680 gamma max.",
         "direction": "Bullish",
         "entry": "hold 660",
         "target": "667 then 680",
         "stop": "lose 650"
       },
       "analysis": {
-        "preferred_entry": "658-662 on dip hold",
-        "aggressive_entry": 667.0,
+        "preferred_entry": "658-662 on dip",
+        "aggressive_entry": 672.0,
         "conservative_entry": 655.0,
         "stop": 648,
         "targets": [
-          667,
           680,
           700
         ],
@@ -432,63 +414,38 @@
       }
     },
     {
-      "ticker": "TSLA",
+      "ticker": "DELL",
       "han": {
-        "summary": "360 short gamma king decides next move. Reclaim = higher; below 360 long gamma 355; lose 355 -> 340.",
-        "direction": "Neutral",
-        "entry": "360 decision",
-        "target": "higher on reclaim",
-        "stop": "lose 355"
+        "summary": "Reclaimed 550 earlier; next 600 short gamma king. Bullish months-long thesis.",
+        "direction": "Bullish",
+        "entry": "reclaim 550",
+        "target": "600",
+        "stop": "lose 550"
       },
       "analysis": {
-        "preferred_entry": "wait reclaim 360",
+        "preferred_entry": "WAIT_FOR_BREAKOUT above 550",
         "aggressive_entry": null,
-        "conservative_entry": null,
-        "stop": 354,
+        "conservative_entry": 540.0,
+        "stop": 538,
         "targets": [
-          370,
-          380
+          575,
+          590,
+          600
         ],
         "opinion": "Watch",
-        "confidence": "Low",
-        "horizon": "1-3 days",
-        "risks": [
-          "below 360 king now at 357"
-        ]
-      }
-    },
-    {
-      "ticker": "NKE",
-      "han": {
-        "summary": "Last good chance to mark bottom at 37, complete 1W HMA bullish crossover. Lose 1W HMA = further selling. Volume not helping.",
-        "direction": "Bullish conditional",
-        "entry": "hold 37",
-        "target": "38",
-        "stop": "lose 37 / 1W HMA"
-      },
-      "analysis": {
-        "preferred_entry": "wait reclaim 37",
-        "aggressive_entry": null,
-        "conservative_entry": null,
-        "stop": null,
-        "targets": [
-          38,
-          45
-        ],
-        "opinion": "Avoid",
         "confidence": "Medium",
         "horizon": "1-2 weeks",
         "risks": [
-          "trading under 37",
-          "weak volume"
+          "trading under 550 reclaim",
+          "FOMC"
         ]
       }
     },
     {
       "ticker": "QQQ",
       "han": {
-        "summary": "FOMC tomorrow. Below 710 hardest gamma wall; Friday exposure mostly downside until 710 reclaimed.",
-        "direction": "Cautious / bearish bias below 710",
+        "summary": "FOMC tomorrow. Below 710 hardest wall; Friday downside exposure until reclaim.",
+        "direction": "Cautious",
         "entry": "reclaim 710",
         "target": "bullish above 710",
         "stop": "stay below 709-710"
