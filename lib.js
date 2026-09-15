@@ -2,6 +2,7 @@
   "use strict";
 
   const DATA_URL = "./data/latest.json";
+  const MARKET_URL = "./data/market.json";
   const CLASS_ORDER = { high_conviction: 0, watchlist: 1, avoid: 2 };
 
   const $ = (sel) => document.querySelector(sel);
@@ -60,7 +61,37 @@
     }
   };
 
+  const impactClass = (impact) => {
+    const key = String(impact || "").toLowerCase();
+    if (key.includes("bull")) return "impact-bullish";
+    if (key.includes("bear")) return "impact-bearish";
+    if (key.includes("high")) return "impact-bearish";
+    if (key.includes("medium") || key.includes("med")) return "impact-neutral";
+    if (key.includes("low")) return "impact-bullish";
+    return "impact-neutral";
+  };
+
+  const signalTone = (label) => {
+    const key = String(label || "").toLowerCase();
+    if (key.includes("strong bull")) return "signal-strong-bull";
+    if (key.includes("bull")) return "signal-bull";
+    if (key.includes("strong bear")) return "signal-strong-bear";
+    if (key.includes("bear")) return "signal-bear";
+    return "signal-neutral";
+  };
+
   window.HanDash = {
-    $, escapeHtml, formatAction, formatClass, formatPrice, formatTargets, formatGenerated, CLASS_ORDER, DATA_URL
+    $,
+    escapeHtml,
+    formatAction,
+    formatClass,
+    formatPrice,
+    formatTargets,
+    formatGenerated,
+    impactClass,
+    signalTone,
+    CLASS_ORDER,
+    DATA_URL,
+    MARKET_URL,
   };
 })();

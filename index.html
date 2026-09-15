@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Han View trade dashboard - research sample, not financial advice." />
+  <meta name="description" content="Han View trade dashboard with Cary market sentiment — research tool, not financial advice." />
   <meta name="color-scheme" content="dark" />
   <title>Han View Dashboard</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
@@ -21,11 +21,11 @@
       <img src="./favicon.svg" alt="" width="28" height="28" />
       <div>
         <h1>Han View</h1>
-        <p class="tagline">Trade dashboard</p>
+        <p class="tagline">Trade dashboard + market pulse</p>
       </div>
     </div>
     <div class="header-meta">
-      <span class="sample-badge" title="Sample / research data">Research sample</span>
+      <span id="feed-badge" class="feed-badge" title="Data from Cary market intelligence + Han View">Live feeds</span>
       <span id="generated-badge" class="meta-chip">Loading...</span>
     </div>
   </header>
@@ -33,13 +33,15 @@
   <main>
     <section id="loading" class="panel loading-panel" aria-live="polite">
       <div class="spinner" aria-hidden="true"></div>
-      <p>Loading <code>data/latest.json</code>...</p>
+      <p>Loading <code>data/market.json</code> + <code>data/latest.json</code>...</p>
     </section>
 
     <section id="error" class="panel error-panel" hidden>
-      <h2>Could not load data</h2>
+      <h2>Could not load Han View data</h2>
       <p id="error-message"></p>
     </section>
+
+    <section id="market-pulse" class="market-pulse panel" aria-labelledby="market-title" hidden></section>
 
     <div id="app" hidden>
       <section id="hero" class="hero panel" aria-labelledby="hero-title"></section>
