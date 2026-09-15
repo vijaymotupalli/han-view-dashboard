@@ -68,7 +68,7 @@ if (!cfg.SUPABASE_URL || !cfg.SUPABASE_ANON_KEY) {
     if (hanData) {
       const ctx = hanData.market_context || {};
       parts.push(
-        "<div><strong>Han View:</strong> " +
+        "<div><strong>Stocks feed:</strong> " +
           escapeHtml(formatGenerated(hanData.generated_at)) +
           " / " +
           escapeHtml(hanData.source || "-") +
@@ -84,7 +84,7 @@ if (!cfg.SUPABASE_URL || !cfg.SUPABASE_ANON_KEY) {
         );
       }
     } else {
-      parts.push("<div><strong>Han View:</strong> unavailable</div>");
+      parts.push("<div><strong>Stocks feed:</strong> unavailable</div>");
     }
     if (marketData) {
       parts.push(
@@ -208,6 +208,7 @@ if (!cfg.SUPABASE_URL || !cfg.SUPABASE_ANON_KEY) {
       e.preventDefault();
       const email = ($("#login-email").value || "").trim();
       if (!email) return;
+      status.classList.remove("is-error", "is-success");
       status.textContent = "Sending magic link...";
       submit.disabled = true;
       try {
@@ -217,10 +218,12 @@ if (!cfg.SUPABASE_URL || !cfg.SUPABASE_ANON_KEY) {
           options: { emailRedirectTo: redirectTo },
         });
         if (error) throw error;
+        status.classList.add("is-success");
         status.textContent =
           "Check your email for the magic link. After you click it, you will return here signed in.";
       } catch (err) {
         console.error(err);
+        status.classList.add("is-error");
         status.textContent =
           (err && err.message) || "Could not send magic link. Check Auth redirect URLs.";
       } finally {
@@ -232,6 +235,7 @@ if (!cfg.SUPABASE_URL || !cfg.SUPABASE_ANON_KEY) {
       await supabase.auth.signOut();
       $("#app").hidden = true;
       showLoginOnly();
+      status.classList.remove("is-error", "is-success");
       status.textContent = "Signed out.";
     });
   }
