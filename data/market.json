@@ -1,104 +1,113 @@
 {
   "schema_version": 1,
   "source": "Cary",
-  "generated_at": "2026-09-15T14:28:30-04:00",
+  "generated_at": "2026-09-15T15:29:02-04:00",
   "report_date": "2026-09-15",
   "timezone": "America/New_York",
   "market_regime": "Risk-Off",
-  "signal_score": -89,
+  "signal_score": -91,
   "signal_label": "Strong Bearish",
   "outlook": {
     "spy": "Bearish",
     "qqq": "Bearish",
     "small_caps": "Bearish",
-    "semiconductors": "Bearish",
-    "volatility_risk": "Medium"
+    "semiconductors": "Neutral",
+    "volatility_risk": "High"
   },
   "top_stories": [
     {
-      "headline": "FOMC Day 1 — hike ~90–92% priced; dots + Warsh presser are the real event",
-      "impact": "Bearish",
-      "strength": 9,
-      "affected": ["SPY", "QQQ", "2Y", "10Y", "DXY", "XLF", "XHB"],
-      "status": "CONFIRMED"
-    },
-    {
-      "headline": "10Y yield ~5.00–5.03% — highest since ~2007",
-      "impact": "Bearish",
-      "strength": 9,
-      "affected": ["TLT", "SPY", "QQQ", "IWM", "XHB", "XLF"],
-      "status": "CONFIRMED"
-    },
-    {
-      "headline": "Saudi East-West pipeline outage + Yanbu loading halt / Libya / diesel spike",
+      "headline": "Saudi Yanbu loadings halted + Libya fields offline — WTI ~$105.6 (+4%), Brent ~$108.5; oil shock intensifies into FOMC",
       "impact": "Mixed",
-      "strength": 9,
-      "affected": ["WTI", "Brent", "XLE", "airlines", "CPI"],
+      "strength": 10,
+      "affected": ["WTI", "Brent", "XLE", "XOP", "airlines", "SPY", "CPI"],
       "status": "CONFIRMED"
     },
     {
-      "headline": "AI/semis anxiety — SOX −5.9% Mon; Asia semis soft; Mag-7 mostly red premarket",
+      "headline": "10Y yield still ~5.00% (high since ~2007); 30Y ~5.36% — discount-rate pressure intact",
+      "impact": "Bearish",
+      "strength": 9,
+      "affected": ["TLT", "SPY", "QQQ", "IWM", "XHB", "XLY"],
+      "status": "CONFIRMED"
+    },
+    {
+      "headline": "FOMC Day 1 — money markets ~90% for +25 bp Wed 2pm ET; dots + Warsh presser are the real event",
+      "impact": "Bearish",
+      "strength": 9,
+      "affected": ["SPY", "QQQ", "2Y", "10Y", "DXY", "XLF"],
+      "status": "CONFIRMED"
+    },
+    {
+      "headline": "Cash session Risk-Off: SPX ~7582 (−0.5%), Dow/NDX/RUT red; XLE leads, XLY/IWM lag",
       "impact": "Bearish",
       "strength": 8,
-      "affected": ["NVDA", "MU", "AMD", "AVGO", "SOX", "QQQ"],
+      "affected": ["SPY", "DIA", "QQQ", "IWM", "XLE", "XLY"],
       "status": "CONFIRMED"
     },
     {
-      "headline": "Global risk-off into Fed — Asia & Europe red; U.S. futures lower overnight",
-      "impact": "Bearish",
+      "headline": "Semis bounce off Mon SOX crush (SOXX modest green; NVDA/AMD firm) while QQQ still lower — AI scare fading, rates/oil dominate",
+      "impact": "Mixed",
       "strength": 7,
-      "affected": ["ES", "NQ", "YM", "VIX"],
+      "affected": ["SOXX", "NVDA", "AMD", "MU", "QQQ"],
       "status": "CONFIRMED"
     }
   ],
   "fed": {
-    "bias": "Strongly Bearish",
+    "bias": "Strongly Hawkish",
     "current_target": "3.50–3.75%",
     "next_decision": "2026-09-16T14:00:00-04:00",
-    "hike_probability_pct": 91,
+    "hike_probability_pct": 90,
     "expected_move_bp": 25,
     "expected_target": "3.75–4.00%",
-    "key_event": "SEP dots + Kevin Warsh press conference 2:30 PM ET"
+    "key_event": "SEP dots + Kevin Warsh press conference ~2:30 PM ET Wed"
   },
   "levels": {
     "spy_support": [752, 742],
-    "spy_resistance": [777, 787],
-    "note": "ANALYSIS levels — not guarantees"
+    "spy_resistance": [760, 777],
+    "note": "ANALYSIS — SPY ~757 / SPX lost 7600; 760 now near-term resistance. Not guarantees."
   },
   "catalysts": {
-    "top_bullish": "Soft-landing hike + dovish-enough dots / oil pause",
-    "top_bearish": "Hawkish SEP + oil >$110 keeping 10Y elevated",
-    "most_important_today": "Positioning into Wed FOMC / Warsh",
+    "top_bullish": "Soft-landing hike + dots framed as calibration; East-West pipeline restart within days (Wright/CNBC)",
+    "top_bearish": "Hawkish SEP path + oil holds >$105–110 keeping 10Y ≥5%",
+    "most_important_today": "Positioning into Wed FOMC / Warsh; oil supply headlines (Yanbu/Libya)",
     "next_extreme_event": {
       "when": "2026-09-16T14:00:00-04:00",
-      "what": "FOMC decision + SEPs/dots"
+      "what": "FOMC decision + SEPs/dots + Warsh presser"
     }
   },
   "scenarios": {
-    "bull": { "probability_pct": 20, "summary": "Hike delivered but dots frame as calibration; oil stabilizes" },
-    "base": { "probability_pct": 45, "summary": "+25 bp, cautious-hawkish SEP; choppy range into OPEX" },
-    "bear": { "probability_pct": 35, "summary": "Hawkish dots + oil >$110; SPY loses key supports" }
+    "bull": {
+      "probability_pct": 18,
+      "summary": "Hike delivered but dots/Warsh frame one-and-done calibration; pipeline restart talk cools oil; 10Y slips back under 4.9%"
+    },
+    "base": {
+      "probability_pct": 47,
+      "summary": "+25 bp, cautious-hawkish SEP (more hikes priced); choppy range with energy outperforming into OPEX"
+    },
+    "bear": {
+      "probability_pct": 35,
+      "summary": "Hawkish dots + oil stickiness >$110; SPY loses 752/742 supports; VIX pushes toward 20+"
+    }
   },
   "snapshot": {
-    "ten_year_yield_pct": 5.02,
-    "vix": 17.5,
+    "ten_year_yield_pct": 5.0,
+    "vix": 17.45,
     "vix_class": "ELEVATED",
-    "wti_usd": 104.5,
-    "brent_usd": 107.5,
+    "wti_usd": 105.62,
+    "brent_usd": 108.48,
     "dxy": 99.63,
     "geo_risk": "HIGH"
   },
   "score_components": {
     "macro": -12,
     "fed": -15,
-    "futures": -8,
-    "global": -10,
+    "futures": -6,
+    "global": -8,
     "yields": -15,
     "vix": -5,
-    "breadth": -7,
-    "technical": -5,
-    "earnings": 0,
-    "geopolitical": -12
+    "breadth": -8,
+    "technical": -6,
+    "earnings": -2,
+    "geopolitical": -14
   },
   "disclaimer": "Not investment advice. FACT / ANALYSIS / PROBABILITY separated in full report. No outcome guaranteed."
 }
