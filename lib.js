@@ -95,7 +95,13 @@
     return "signal-neutral";
   };
 
-  window.HanDash = {
+  /** Primary trader notes from ticker detail (prefer `primary`, fall back to legacy `han`). */
+  const primaryView = (detail) => {
+    if (!detail || typeof detail !== "object") return {};
+    return detail.primary || detail.han || {};
+  };
+
+  window.TradeDesk = {
     $,
     escapeHtml,
     formatAction,
@@ -107,6 +113,7 @@
     robinhoodLink,
     impactClass,
     signalTone,
+    primaryView,
     CLASS_ORDER,
     DATA_URL,
     MARKET_URL,
