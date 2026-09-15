@@ -7,11 +7,32 @@ Dark-mode-first, mobile-friendly static dashboard with a **two-tab** layout:
 
 **Not financial advice.** This site is for research and educational purposes only. Trading involves risk of loss.
 
+Feeds are stored in **Supabase** (`public.dashboard_feeds`) with RLS: **authenticated SELECT only**. The static GitHub Pages site uses magic-link auth (email OTP) via the public anon key.
+
 ## Live site
 
-After GitHub Pages is enabled:
-
 **https://vijaymotupalli.github.io/han-view-dashboard/**
+
+## Auth setup (required once)
+
+In **Supabase Dashboard → Authentication → URL Configuration**, set:
+
+**Site URL**
+
+- `https://vijaymotupalli.github.io/han-view-dashboard/`
+
+**Redirect URLs** (add all that apply)
+
+- `https://vijaymotupalli.github.io/han-view-dashboard/`
+- `https://vijaymotupalli.github.io/han-view-dashboard/index.html`
+- `https://vijaymotupalli.com/han-view-dashboard/` (if using a custom domain)
+- `http://localhost:5500/` (optional, local preview)
+
+Also enable **Email** provider / magic link (OTP) under Authentication → Providers.
+
+Then open the live site, enter your email, and click **Send magic link**. After you open the email link, you return signed in and feeds load from Supabase.
+
+`config.js` holds `SUPABASE_URL` + `SUPABASE_ANON_KEY` (anon is public by design with RLS). **Never commit the `service_role` key.**
 
 ## Enable GitHub Pages
 
@@ -25,49 +46,48 @@ After GitHub Pages is enabled:
 5. Wait 1–2 minutes, then visit
    https://vijaymotupalli.github.io/han-view-dashboard/
 
-No build step is required — the site is vanilla HTML/CSS/JS.
+No build step is required — the site is vanilla HTML/CSS/JS (+ Supabase JS from jsDelivr ESM CDN).
 
 ## UI notes
 
 - Sticky tab bar: **Market | Stocks** (`aria-selected` on semantic buttons)
-- Default tab: Market if `market.json` loads, else Stocks; last tab remembered in `localStorage` key `han-dash-tab`
-- Parallel fetch of `./data/market.json` + `./data/latest.json`
+- Default tab: Market if Cary feed loads, else Stocks; last tab remembered in `localStorage` key `han-dash-tab`
+- Unauthenticated visitors see **only** the magic-link login UI (no Market/Stocks data)
+- Authenticated users: header shows email + **Sign out**; app fetches `dashboard_feeds` and maps `han_view` → Stocks, `cary_market` → Market
 - Market news items show `source_name` (citation) and a **Read full story** link when `url` is present; otherwise muted “No link” (no invented URLs)
 - Fed / snapshot / levels / scenarios / catalysts live in a collapsible **Details** section (closed by default)
 - Stocks table sorts `high_conviction` → `watchlist` → `avoid`; click a row to expand inline analysis from `tickers[]`
 - Robinhood helpers: ticker & current price link to `https://robinhood.com/stocks/{TICKER}`
+- `[hidden]` CSS fix preserved so tab panels / login / auth chrome stay correctly hidden
 
 ## Update data
 
-### Han View (`data/latest.json`)
+Live payloads live in Supabase table `public.dashboard_feeds` (ids `han_view`, `cary_market`), not in the public JSON files.
 
-Edit or replace `data/latest.json` on `main`. The dashboard fetches `./data/latest.json` on every page load (`cache: no-store`).
-
-### Cary market intelligence (`data/market.json`)
-
-**Cary publishes** `data/market.json` on `main` (`schema_version: 1`). The Market tab fetches `./data/market.json` in parallel with Han View data. If the market file is missing or fails, the Market tab shows a notice and Stocks still renders.
-
-Do not replace Cary's live payload with ad-hoc sample shapes — keep the locked dashboard schema (see below).
+Repo stubs `data/latest.json` and `data/market.json` are placeholders (`login_required`) so raw GitHub URLs no longer leak full feeds. Upsert new payloads into Supabase (service role / SQL / MCP) instead of committing full JSON.
 
 ## Files
 
 | Path | Role |
 |------|------|
-| `index.html` | App shell (two-tab layout) |
-| `styles.css` | Dark theme base + tab bar (`[hidden]` panel fix) |
+| `index.html` | App shell (login gate + two-tab layout) |
+| `config.js` | Public Supabase URL + anon key |
+| `styles.css` | Dark theme base + tab bar + auth/login (`[hidden]` panel fix) |
 | `theme.css` | Stocks table / strip / expand styles |
 | `market.css` | Market tab + news list styles |
 | `lib.js` | Shared helpers (`robinhoodUrl` / `robinhoodLink`) |
 | `market.js` | Market tab renderer |
 | `stocks.js` | Stocks tab renderer |
-| `app.js` | Parallel fetch + tab switching + footer |
-| `data/latest.json` | Han View trade payload |
-| `data/market.json` | Cary market intelligence payload |
+| `app.js` | Supabase auth + feed fetch + tab switching + footer |
+| `data/latest.json` | Placeholder (data behind auth) |
+| `data/market.json` | Placeholder (data behind auth) |
 | `favicon.svg` | Brand mark |
 
-## `data/market.json` schema (Cary → dashboard)
+## Feed payload schemas
 
-Locked fields Cary publishes (`schema_version: 1`):
+### Cary market (`cary_market` / former `data/market.json`)
+
+Locked fields (`schema_version: 1`):
 
 | Field | Notes |
 |-------|--------|
@@ -79,16 +99,14 @@ Locked fields Cary publishes (`schema_version: 1`):
 | `signal_score` | Numeric score; label bands: +60..+100 Strong Bullish, +25..+59 Bullish, -24..+24 Neutral / Mixed, -25..-59 Bearish, -60..-100 Strong Bearish |
 | `signal_label` | Display label matching the score band |
 | `outlook` | `{ spy, qqq, small_caps, semiconductors, volatility_risk }` |
-| `top_stories[]` | `{ headline, impact, strength, affected[], status?, summary?, source_name?, url? }` — when `url` is present the UI shows **Read full story**; `source_name` is shown as citation |
+| `top_stories[]` | `{ headline, impact, strength, affected[], status?, summary?, source_name?, url? }` |
 | `fed` | `{ bias, current_target, next_decision, hike_probability_pct, expected_move_bp, expected_target, key_event }` |
 | `catalysts` | `{ top_bullish, top_bearish, most_important_today, next_extreme_event: { when, what } }` |
 | `scenarios` | `bull` / `base` / `bear` with `probability_pct` + `summary` |
 | `snapshot` | `{ ten_year_yield_pct, vix, vix_class, wti_usd, brent_usd, dxy, geo_risk }` |
 | `levels` | `{ spy_support[], spy_resistance[], note }` |
 
-The UI also tolerates a transitional / legacy shape (`regime`, `summary`, scenario `probability` + level strings).
-
-## `data/latest.json` schema notes (Han View)
+### Han View (`han_view` / former `data/latest.json`)
 
 Top-level fields:
 
@@ -106,25 +124,17 @@ Top-level fields:
 ### `dashboard[].class` values
 
 `high_conviction` | `watchlist` | `avoid`
-(Table sorts high conviction → watchlist → avoid.)
-
-### Dashboard row fields
-
-ticker, company, direction, entry, current_price, target, stop, status, my_rating, class, post_url, post_time_et
-
-### Ticker detail fields
-
-- `han`: `summary`, `direction`, `entry`, `target`, `stop`
-- `analysis`: `preferred_entry`, `aggressive_entry`, `conservative_entry`, `stop`, `targets[]`, `opinion`, `confidence`, `horizon`, `risks[]`
 
 ## Local preview
 
-Because `fetch` requires HTTP(S), open via a simple static server from the repo root:
+Because `fetch` / Supabase auth require HTTP(S):
 
 ```bash
-python3 -m http.server 8080
-# then visit http://localhost:8080
+python3 -m http.server 5500
+# then visit http://localhost:5500/
 ```
+
+Add `http://localhost:5500/` to Supabase Redirect URLs for magic-link return.
 
 ## Disclaimer
 
