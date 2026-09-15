@@ -26,15 +26,30 @@
       </div>
     </div>
     <div class="header-meta">
-      <span id="feed-badge" class="feed-badge" title="Data from Cary market intelligence + Han View">Live feeds</span>
-      <span id="generated-badge" class="meta-chip">Loading...</span>
+      <span id="feed-badge" class="feed-badge" title="Data from Cary market intelligence + Han View" hidden>Live feeds</span>
+      <span id="generated-badge" class="meta-chip" hidden>Loading...</span>
+      <div id="auth-user" class="auth-user" hidden>
+        <span id="user-email" class="meta-chip"></span>
+        <button type="button" id="sign-out-btn" class="btn-ghost">Sign out</button>
+      </div>
     </div>
   </header>
 
   <main>
+    <section id="login" class="panel login-panel" hidden>
+      <h2>Sign in</h2>
+      <p class="login-copy">Enter your email for a magic link. Feeds load only after you authenticate.</p>
+      <form id="login-form" class="login-form">
+        <label class="login-label" for="login-email">Email</label>
+        <input id="login-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" />
+        <button type="submit" id="login-submit" class="btn-primary">Send magic link</button>
+      </form>
+      <p id="login-status" class="login-status" role="status" aria-live="polite"></p>
+    </section>
+
     <section id="loading" class="panel loading-panel" aria-live="polite">
       <div class="spinner" aria-hidden="true"></div>
-      <p>Loading <code>data/market.json</code> + <code>data/latest.json</code>...</p>
+      <p>Checking session...</p>
     </section>
 
     <section id="error" class="panel error-panel" hidden>
@@ -63,9 +78,10 @@
     <p class="disclaimer">Not financial advice. For research and educational purposes only. Trading involves risk of loss.</p>
   </footer>
 
+  <script src="./config.js"></script>
   <script src="./lib.js"></script>
   <script src="./market.js"></script>
   <script src="./stocks.js"></script>
-  <script src="./app.js" defer></script>
+  <script type="module" src="./app.js"></script>
 </body>
 </html>
