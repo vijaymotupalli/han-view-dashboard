@@ -35,7 +35,7 @@ Edit or replace `data/latest.json` on `main`. The dashboard fetches `./data/late
 
 ### Cary market intelligence (`data/market.json`)
 
-**Cary publishes** `data/market.json` on `main`. The Market pulse section fetches `./data/market.json` in parallel with Han View data. If the market file is missing or fails, a small inline notice is shown and Han View still renders.
+**Cary publishes** `data/market.json` on `main` (`schema_version: 1`). The Market pulse section fetches `./data/market.json` in parallel with Han View data. If the market file is missing or fails, a small inline notice is shown and Han View still renders.
 
 Do not replace Cary's live payload with ad-hoc sample shapes — keep the locked dashboard schema (see below).
 
@@ -45,34 +45,37 @@ Do not replace Cary's live payload with ad-hoc sample shapes — keep the locked
 |------|------|
 | `index.html` | App shell (Market pulse above Han View hero) |
 | `styles.css` | Dark theme base styles (includes `[hidden]` panel fix) |
-| `theme.css` | Layout / table / card / market pulse styles |
+| `theme.css` | Layout / table / card styles |
+| `market.css` | Market pulse styles |
 | `lib.js` | Shared helpers |
-| `app.js` | Parallel fetch + render |
+| `market.js` | Cary market pulse renderer |
+| `app.js` | Parallel fetch + Han View + footer |
 | `data/latest.json` | Han View trade payload |
 | `data/market.json` | Cary market intelligence payload |
 | `favicon.svg` | Brand mark |
 
 ## `data/market.json` schema (Cary → dashboard)
 
-Locked fields Cary should publish (`schema_version: 1` preferred):
+Locked fields Cary publishes (`schema_version: 1`):
 
 | Field | Notes |
 |-------|--------|
+| `schema_version` | `1` |
 | `generated_at` | ISO-8601 timestamp |
-| `source` | Provenance string (e.g. `Cary market intelligence`) |
-| `disclaimer` | Optional short disclaimer shown under Market pulse |
+| `source` | Provenance (e.g. `Cary`) |
+| `disclaimer` | Optional short disclaimer under Market pulse |
 | `market_regime` | Regime title (UI also accepts legacy `regime`) |
-| `signal_score` | Numeric score; label bands: +60..+100 Strong Bullish, +25..+59 Bullish, −24..+24 Neutral / Mixed, −25..−59 Bearish, −60..−100 Strong Bearish |
+| `signal_score` | Numeric score; label bands: +60..+100 Strong Bullish, +25..+59 Bullish, -24..+24 Neutral / Mixed, -25..-59 Bearish, -60..-100 Strong Bearish |
 | `signal_label` | Display label matching the score band |
 | `outlook` | `{ spy, qqq, small_caps, semiconductors, volatility_risk }` |
 | `top_stories[]` | `{ headline, impact, strength, affected[], status? }` — `summary` accepted as fallback for status text |
 | `fed` | `{ bias, current_target, next_decision, hike_probability_pct, expected_move_bp, expected_target, key_event }` |
 | `catalysts` | `{ top_bullish, top_bearish, most_important_today, next_extreme_event: { when, what } }` |
-| `scenarios` | `bull` / `base` / `bear` with `probability_pct` + `summary` (legacy `probability` / `conditions` / `expected` also accepted) |
+| `scenarios` | `bull` / `base` / `bear` with `probability_pct` + `summary` |
 | `snapshot` | `{ ten_year_yield_pct, vix, vix_class, wti_usd, brent_usd, dxy, geo_risk }` |
 | `levels` | `{ spy_support[], spy_resistance[], note }` |
 
-The UI tolerates the transitional / legacy shape (`regime`, `summary`, scenario `probability` + level strings) so older Cary publishes still render.
+The UI also tolerates a transitional / legacy shape (`regime`, `summary`, scenario `probability` + level strings).
 
 ## `data/latest.json` schema notes (Han View)
 
