@@ -22,7 +22,7 @@
       <img src="./favicon.svg" alt="" width="28" height="28" />
       <div>
         <h1>Han View</h1>
-        <p class="tagline">Trade dashboard + market pulse</p>
+        <p class="tagline">Market pulse + trades</p>
       </div>
     </div>
     <div class="header-meta">
@@ -38,47 +38,22 @@
     </section>
 
     <section id="error" class="panel error-panel" hidden>
-      <h2>Could not load Han View data</h2>
+      <h2>Could not load dashboard data</h2>
       <p id="error-message"></p>
     </section>
 
-    <section id="market-pulse" class="market-pulse panel" aria-labelledby="market-title" hidden></section>
-
     <div id="app" hidden>
-      <section id="hero" class="hero panel" aria-labelledby="hero-title"></section>
+      <nav class="tab-bar" role="tablist" aria-label="Dashboard sections">
+        <button type="button" class="tab-btn" role="tab" id="tab-btn-market" aria-controls="panel-market" aria-selected="false" data-tab="market">Market</button>
+        <button type="button" class="tab-btn" role="tab" id="tab-btn-stocks" aria-controls="panel-stocks" aria-selected="false" data-tab="stocks">Stocks</button>
+      </nav>
 
-      <section class="section" aria-labelledby="dashboard-title">
-        <div class="section-head">
-          <h2 id="dashboard-title">Dashboard</h2>
-          <p class="section-sub">Newest Han posts first (last 8h window) · ticker &amp; price open on Robinhood</p>
-        </div>
-        <div class="table-wrap panel">
-          <table class="dash-table" id="dash-table">
-            <thead>
-              <tr>
-                <th>Ticker</th>
-                <th>Class</th>
-                <th>Dir</th>
-                <th>Entry</th>
-                <th>Current price</th>
-                <th>Target</th>
-                <th>Stop</th>
-                <th>Status</th>
-                <th>Rating</th>
-                <th>Post</th>
-              </tr>
-            </thead>
-            <tbody id="dash-body"></tbody>
-          </table>
-        </div>
+      <section id="panel-market" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-market" hidden>
+        <div id="market-root"></div>
       </section>
 
-      <section class="section" aria-labelledby="tickers-title">
-        <div class="section-head">
-          <h2 id="tickers-title">Ticker analysis</h2>
-          <p class="section-sub">Expand a card to compare Han's view vs my analysis</p>
-        </div>
-        <div id="ticker-cards" class="ticker-grid"></div>
+      <section id="panel-stocks" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-stocks" hidden>
+        <div id="stocks-root"></div>
       </section>
     </div>
   </main>
@@ -90,6 +65,7 @@
 
   <script src="./lib.js"></script>
   <script src="./market.js"></script>
+  <script src="./stocks.js"></script>
   <script src="./app.js" defer></script>
 </body>
 </html>
