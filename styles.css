@@ -59,9 +59,11 @@ code { font-family: var(--mono); font-size: 0.9em; color: var(--accent); }
   box-shadow: var(--shadow); backdrop-filter: blur(12px);
 }
 .loading-panel, .error-panel {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  flex-direction: column; align-items: center; justify-content: center;
   gap: 0.75rem; padding: 3rem 1.5rem; text-align: center; margin-bottom: 1.5rem;
 }
+.loading-panel:not([hidden]), .error-panel:not([hidden]) { display: flex; }
+.loading-panel[hidden], .error-panel[hidden], #app[hidden] { display: none !important; }
 .error-panel { border-color: rgba(251, 113, 133, 0.35); color: var(--rose); }
 .spinner {
   width: 28px; height: 28px; border-radius: 50%;
