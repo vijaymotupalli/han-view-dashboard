@@ -70,6 +70,7 @@ code { font-family: var(--mono); font-size: 0.9em; color: var(--accent); }
 .loading-panel[hidden],
 .error-panel[hidden],
 .login-panel[hidden],
+.login-screen[hidden],
 #app[hidden],
 .tab-panel[hidden],
 .expand-row[hidden],
