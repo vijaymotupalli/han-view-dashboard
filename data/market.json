@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source": "Cary",
-  "generated_at": "2026-09-15T15:29:02-04:00",
+  "generated_at": "2026-09-15T15:43:33-04:00",
   "report_date": "2026-09-15",
   "timezone": "America/New_York",
   "market_regime": "Risk-Off",
@@ -20,35 +20,50 @@
       "impact": "Mixed",
       "strength": 10,
       "affected": ["WTI", "Brent", "XLE", "XOP", "airlines", "SPY", "CPI"],
-      "status": "CONFIRMED"
+      "status": "CONFIRMED",
+      "url": "https://www.reuters.com/business/energy/polands-orlen-rushes-find-alternatives-saudi-oil-supply-traders-say-2026-09-15/",
+      "source_name": "Reuters",
+      "summary": "Yanbu loadings suspended and some Saudi cargoes cancelled after East-West pipeline attacks, lifting oil and inflation risk into the FOMC."
     },
     {
       "headline": "10Y yield still ~5.00% (high since ~2007); 30Y ~5.36% — discount-rate pressure intact",
       "impact": "Bearish",
       "strength": 9,
       "affected": ["TLT", "SPY", "QQQ", "IWM", "XHB", "XLY"],
-      "status": "CONFIRMED"
+      "status": "CONFIRMED",
+      "url": "https://www.reuters.com/world/asia-pacific/bond-selloff-drives-us-benchmark-beyond-5-stocks-rattled-2026-09-15/",
+      "source_name": "Reuters",
+      "summary": "10Y yield above 5% (highest since ~2007) raises discount rates and pressures equity multiples, housing, and small caps."
     },
     {
       "headline": "FOMC Day 1 — money markets ~90% for +25 bp Wed 2pm ET; dots + Warsh presser are the real event",
       "impact": "Bearish",
       "strength": 9,
       "affected": ["SPY", "QQQ", "2Y", "10Y", "DXY", "XLF"],
-      "status": "CONFIRMED"
+      "status": "CONFIRMED",
+      "url": "https://www.reuters.com/business/feds-table-is-set-rate-hike-first-under-warsh-2026-09-14/",
+      "source_name": "Reuters",
+      "summary": "Markets heavily price a +25 bp hike Wed with focus on SEP dots and Warsh’s path signals rather than the hike itself."
     },
     {
       "headline": "Cash session Risk-Off: SPX ~7582 (−0.5%), Dow/NDX/RUT red; XLE leads, XLY/IWM lag",
       "impact": "Bearish",
       "strength": 8,
       "affected": ["SPY", "DIA", "QQQ", "IWM", "XLE", "XLY"],
-      "status": "CONFIRMED"
+      "status": "CONFIRMED",
+      "url": "https://www.businessinsider.com/stock-market-today-sp500-outlook-bond-yields-treasurys-oil-prices-2026-9",
+      "source_name": "Business Insider",
+      "summary": "Cash indexes soft with yields and oil rising; energy outperforming while discretionary and broad beta lag."
     },
     {
       "headline": "Semis bounce off Mon SOX crush (SOXX modest green; NVDA/AMD firm) while QQQ still lower — AI scare fading, rates/oil dominate",
       "impact": "Mixed",
       "strength": 7,
       "affected": ["SOXX", "NVDA", "AMD", "MU", "QQQ"],
-      "status": "CONFIRMED"
+      "status": "CONFIRMED",
+      "url": "https://www.fool.com/investing/2026/09/15/chip-stocks-recovered-today-and-the-indexes-fell/",
+      "source_name": "Motley Fool",
+      "summary": "Chip stocks bounced after Monday’s SOX crush even as majors stayed red — rates and oil still dominate the tape."
     }
   ],
   "fed": {
