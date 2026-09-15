@@ -1,13 +1,15 @@
-# Han View Dashboard
+# Trade Desk
 
 Dark-mode-first, mobile-friendly static dashboard with a **two-tab** layout:
 
 - **Market** — Cary market sentiment, signal score, outlook chips, and a news list of `top_stories` (with citations / links when present)
-- **Stocks** — Han View dashboard table (expandable rows for deep analysis) + compact best-opportunity strip
+- **Stocks** — Trade Desk table (expandable rows for deep analysis) + compact best-opportunity strip
 
 **Not financial advice.** This site is for research and educational purposes only. Trading involves risk of loss.
 
 Feeds are stored in **Supabase** (`public.dashboard_feeds`) with RLS: **authenticated SELECT only**. The static GitHub Pages site uses magic-link auth (email OTP) via the public anon key.
+
+> Migration note: repo folder / Pages path may still use the historical `han-view-dashboard` name; UI branding is **Trade Desk**. Feed row ids `han_view` and `cary_market` are unchanged DB keys.
 
 ## Live site
 
@@ -30,7 +32,7 @@ In **Supabase Dashboard → Authentication → URL Configuration**, set:
 
 Also enable **Email** provider / magic link (OTP) under Authentication → Providers.
 
-Then open the live site, enter your email, and click **Send magic link**. After you open the email link, you return signed in and feeds load from Supabase.
+Then open the live site, enter your email, and click **Email me a magic link**. After you open the email link, you return signed in and feeds load from Supabase.
 
 `config.js` holds `SUPABASE_URL` + `SUPABASE_ANON_KEY` (anon is public by design with RLS). **Never commit the `service_role` key.**
 
@@ -52,7 +54,7 @@ No build step is required — the site is vanilla HTML/CSS/JS (+ Supabase JS fro
 
 - Sticky tab bar: **Market | Stocks** (`aria-selected` on semantic buttons)
 - Default tab: Market if Cary feed loads, else Stocks; last tab remembered in `localStorage` key `han-dash-tab`
-- Unauthenticated visitors see **only** the magic-link login UI (no Market/Stocks data)
+- Unauthenticated visitors see a centered **Trade Desk** magic-link login card (no Market/Stocks data)
 - Authenticated users: header shows email + **Sign out**; app fetches `dashboard_feeds` and maps `han_view` → Stocks, `cary_market` → Market
 - Market news items show `source_name` (citation) and a **Read full story** link when `url` is present; otherwise muted “No link” (no invented URLs)
 - Fed / snapshot / levels / scenarios / catalysts live in a collapsible **Details** section (closed by default)
@@ -71,8 +73,9 @@ Repo stubs `data/latest.json` and `data/market.json` are placeholders (`login_re
 | Path | Role |
 |------|------|
 | `index.html` | App shell (login gate + two-tab layout) |
+| `login.css` | Centered premium magic-link auth screen |
 | `config.js` | Public Supabase URL + anon key |
-| `styles.css` | Dark theme base + tab bar + auth/login (`[hidden]` panel fix) |
+| `styles.css` | Dark theme base + tab bar + auth helpers (`[hidden]` panel fix) |
 | `theme.css` | Stocks table / strip / expand styles |
 | `market.css` | Market tab + news list styles |
 | `lib.js` | Shared helpers (`robinhoodUrl` / `robinhoodLink`) |
@@ -106,7 +109,7 @@ Locked fields (`schema_version: 1`):
 | `snapshot` | `{ ten_year_yield_pct, vix, vix_class, wti_usd, brent_usd, dxy, geo_risk }` |
 | `levels` | `{ spy_support[], spy_resistance[], note }` |
 
-### Han View (`han_view` / former `data/latest.json`)
+### Stocks feed (`han_view` / former `data/latest.json`)
 
 Top-level fields:
 
@@ -115,7 +118,7 @@ Top-level fields:
 - `market_context` — e.g. `{ "fomc": "YYYY-MM-DD", "note": "..." }`
 - `best_opportunity` — compact Stocks strip (ticker, action, price)
 - `dashboard` — table rows (expandable)
-- `tickers` — deep analysis matched by ticker into row expand panels
+- `tickers` — deep analysis matched by ticker into row expand panels (payload may include a `han` object for the primary-view column)
 
 ### `best_opportunity.action` values
 
