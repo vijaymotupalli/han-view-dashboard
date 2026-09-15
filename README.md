@@ -9,11 +9,11 @@ Dark-mode-first, mobile-friendly static dashboard with a **two-tab** layout:
 
 Feeds are stored in **Supabase** (`public.dashboard_feeds`) with RLS: **authenticated SELECT only**. The static GitHub Pages site uses **Google OAuth** (primary) plus optional magic-link auth (email OTP) via the public anon key.
 
-> The GitHub repo / Pages path is still `han-view-dashboard`; the product name in the UI is **Trade Desk**. Prefer feed id `stocks` for the Stocks tab (legacy id `han_view` is still accepted by the client). Market feed id remains `cary_market`.
+> The GitHub repo / Pages path is `trade-view-dashboard`; the product name in the UI is **Trade Desk**. Prefer feed id `stocks` for the Stocks tab (legacy id `han_view` is still accepted by the client). Market feed id remains `cary_market`.
 
 ## Live site
 
-**https://vijaymotupalli.github.io/han-view-dashboard/**
+**https://vijaymotupalli.github.io/trade-view-dashboard/**
 
 ## Auth setup (required once)
 
@@ -23,13 +23,13 @@ In **Supabase Dashboard → Authentication → URL Configuration**, set:
 
 **Site URL**
 
-- `https://vijaymotupalli.github.io/han-view-dashboard/`
+- `https://vijaymotupalli.github.io/trade-view-dashboard/`
 
 **Redirect URLs** (add all that apply)
 
-- `https://vijaymotupalli.github.io/han-view-dashboard/`
-- `https://vijaymotupalli.github.io/han-view-dashboard/index.html`
-- `https://vijaymotupalli.com/han-view-dashboard/` (if using a custom domain)
+- `https://vijaymotupalli.github.io/trade-view-dashboard/`
+- `https://vijaymotupalli.github.io/trade-view-dashboard/index.html`
+- `https://vijaymotupalli.com/trade-view-dashboard/` (if using a custom domain)
 - `http://localhost:5500/` (optional, local preview)
 
 ### 2. Google OAuth provider
@@ -39,7 +39,7 @@ In **Supabase Dashboard → Authentication → URL Configuration**, set:
    - `https://umkbxexijazlpqbjwvlb.supabase.co/auth/v1/callback`
 3. Copy the Client ID and Client Secret.
 4. **Supabase Dashboard → Authentication → Providers → Google** → enable, paste Client ID + Secret, save.
-5. Confirm Site URL + Redirect URLs include `https://vijaymotupalli.github.io/han-view-dashboard/` (and your custom domain if used).
+5. Confirm Site URL + Redirect URLs include `https://vijaymotupalli.github.io/trade-view-dashboard/` (and your custom domain if used).
 
 On the live site, click **Sign in with Google**. After Google / Supabase redirect, you return signed in and feeds load.
 
@@ -53,7 +53,7 @@ Then open the live site and use **Email me a magic link** if you prefer email OT
 
 ## Enable GitHub Pages
 
-1. Open the repo: https://github.com/vijaymotupalli/han-view-dashboard
+1. Open the repo: https://github.com/vijaymotupalli/trade-view-dashboard
 2. Go to **Settings → Pages**
 3. Under **Build and deployment**:
    - **Source:** Deploy from a branch
@@ -61,7 +61,7 @@ Then open the live site and use **Email me a magic link** if you prefer email OT
    - **Folder:** `/ (root)`
 4. Click **Save**
 5. Wait 1–2 minutes, then visit
-   https://vijaymotupalli.github.io/han-view-dashboard/
+   https://vijaymotupalli.github.io/trade-view-dashboard/
 
 No build step is required — the site is vanilla HTML/CSS/JS (+ Supabase JS from jsDelivr ESM CDN).
 
@@ -173,7 +173,7 @@ Add `http://localhost:5500/` to Supabase Redirect URLs for Google / magic-link r
 
 Intentional technical leftovers (not product branding):
 
-- Repo / Pages path: `han-view-dashboard`
+- Repo / Pages path: `trade-view-dashboard` (renamed from `han-view-dashboard`)
 - Legacy Stocks feed id: `han_view` (client prefers `stocks`)
 - Legacy payload key: `han` on ticker details (client prefers `primary`)
 - One-time `localStorage` migrate from `han-dash-tab` → `trade-desk-tab`
