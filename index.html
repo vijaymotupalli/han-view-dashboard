@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Han View trade dashboard with Cary market sentiment — research tool, not financial advice." />
+  <meta name="description" content="Trade Desk — market sentiment and trade research dashboard. Research tool, not financial advice." />
   <meta name="color-scheme" content="dark" />
-  <title>Han View Dashboard</title>
+  <title>Trade Desk</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="./theme.css" />
   <link rel="stylesheet" href="./market.css" />
+  <link rel="stylesheet" href="./login.css" />
 </head>
 <body>
   <div class="bg-glow" aria-hidden="true"></div>
@@ -21,12 +22,12 @@
     <div class="brand">
       <img src="./favicon.svg" alt="" width="28" height="28" />
       <div>
-        <h1>Han View</h1>
+        <h1>Trade Desk</h1>
         <p class="tagline">Market pulse + trades</p>
       </div>
     </div>
     <div class="header-meta">
-      <span id="feed-badge" class="feed-badge" title="Data from Cary market intelligence + Han View" hidden>Live feeds</span>
+      <span id="feed-badge" class="feed-badge" title="Data from Cary market intelligence + stocks feed" hidden>Live feeds</span>
       <span id="generated-badge" class="meta-chip" hidden>Loading...</span>
       <div id="auth-user" class="auth-user" hidden>
         <span id="user-email" class="meta-chip"></span>
@@ -36,15 +37,23 @@
   </header>
 
   <main>
-    <section id="login" class="panel login-panel" hidden>
-      <h2>Sign in</h2>
-      <p class="login-copy">Enter your email for a magic link. Feeds load only after you authenticate.</p>
-      <form id="login-form" class="login-form">
-        <label class="login-label" for="login-email">Email</label>
-        <input id="login-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" />
-        <button type="submit" id="login-submit" class="btn-primary">Send magic link</button>
-      </form>
-      <p id="login-status" class="login-status" role="status" aria-live="polite"></p>
+    <section id="login" class="login-screen" hidden>
+      <div class="login-card">
+        <div class="login-brand">
+          <div class="login-mark" aria-hidden="true">
+            <img src="./favicon.svg" alt="" width="36" height="36" />
+          </div>
+          <h2 class="login-product">Trade Desk</h2>
+          <p class="login-tagline">Market research and trade ideas — sign in to open your desk.</p>
+        </div>
+        <form id="login-form" class="login-form">
+          <label class="login-label" for="login-email">Email</label>
+          <input id="login-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" />
+          <button type="submit" id="login-submit" class="btn-primary login-cta">Email me a magic link</button>
+        </form>
+        <p id="login-status" class="login-status" role="status" aria-live="polite"></p>
+        <p class="login-disclaimer">Not financial advice. For research and educational purposes only. Trading involves risk of loss.</p>
+      </div>
     </section>
 
     <section id="loading" class="panel loading-panel" aria-live="polite">
