@@ -8,8 +8,9 @@
     formatPrice,
     formatTargets,
     robinhoodLink,
+    primaryView,
     CLASS_ORDER,
-  } = window.HanDash;
+  } = window.TradeDesk;
 
   function findTickerDetail(tickers, symbol) {
     const key = String(symbol || "").toUpperCase();
@@ -21,7 +22,7 @@
     if (!detail) {
       return '<p class="expand-empty">No deep analysis yet for ' + escapeHtml(ticker) + ".</p>";
     }
-    const han = detail.han || {};
+    const primary = primaryView(detail);
     const analysis = detail.analysis || {};
     const risks = Array.isArray(analysis.risks) ? analysis.risks : [];
 
@@ -29,19 +30,19 @@
       '<div class="card-cols">' +
       '<div class="col-box"><h4>Primary view</h4><dl class="kv">' +
       '<dt>Summary</dt><dd style="font-family:var(--font)">' +
-      escapeHtml(han.summary) +
+      escapeHtml(primary.summary) +
       "</dd>" +
       "<dt>Direction</dt><dd>" +
-      escapeHtml(han.direction) +
+      escapeHtml(primary.direction) +
       "</dd>" +
       "<dt>Entry</dt><dd>" +
-      escapeHtml(han.entry) +
+      escapeHtml(primary.entry) +
       "</dd>" +
       "<dt>Target</dt><dd>" +
-      escapeHtml(han.target) +
+      escapeHtml(primary.target) +
       "</dd>" +
       "<dt>Stop</dt><dd>" +
-      formatPrice(han.stop) +
+      formatPrice(primary.stop) +
       "</dd></dl></div>" +
       '<div class="col-box mine"><h4>My analysis</h4><dl class="kv">' +
       "<dt>Preferred</dt><dd>" +
@@ -119,18 +120,18 @@
     });
   }
 
-  function renderStocksTab(hanData) {
+  function renderStocksTab(stocksData) {
     const root = document.querySelector("#stocks-root");
     if (!root) return;
 
-    if (!hanData) {
+    if (!stocksData) {
       root.innerHTML =
         '<div class="panel market-notice"><strong>Stocks feed unavailable.</strong> Could not load protected feed data.</div>';
       return;
     }
 
-    const tickers = hanData.tickers || [];
-    const sorted = sortDashboard(hanData.dashboard);
+    const tickers = stocksData.tickers || [];
+    const sorted = sortDashboard(stocksData.dashboard);
     const colCount = 11;
 
     let tableBody;
@@ -211,7 +212,7 @@
     }
 
     root.innerHTML =
-      renderCompactStrip(hanData.best_opportunity) +
+      renderCompactStrip(stocksData.best_opportunity) +
       '<section class="section" aria-labelledby="dashboard-title">' +
       '<div class="section-head">' +
       '<h2 id="dashboard-title">Trade Desk</h2>' +
@@ -266,5 +267,5 @@
     });
   }
 
-  window.HanDashStocks = { renderStocksTab };
+  window.TradeDeskStocks = { renderStocksTab };
 })();
