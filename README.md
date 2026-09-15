@@ -1,9 +1,9 @@
 # Han View Dashboard
 
-Dark-mode-first, mobile-friendly static dashboard that loads:
+Dark-mode-first, mobile-friendly static dashboard with a **two-tab** layout:
 
-- **Han View trades** from `data/latest.json`
-- **Cary market sentiment + news** from `data/market.json`
+- **Market** — Cary market sentiment, signal score, outlook chips, and a news list of `top_stories` (with citations / links when present)
+- **Stocks** — Han View dashboard table (expandable rows for deep analysis) + compact best-opportunity strip
 
 **Not financial advice.** This site is for research and educational purposes only. Trading involves risk of loss.
 
@@ -27,6 +27,16 @@ After GitHub Pages is enabled:
 
 No build step is required — the site is vanilla HTML/CSS/JS.
 
+## UI notes
+
+- Sticky tab bar: **Market | Stocks** (`aria-selected` on semantic buttons)
+- Default tab: Market if `market.json` loads, else Stocks; last tab remembered in `localStorage` key `han-dash-tab`
+- Parallel fetch of `./data/market.json` + `./data/latest.json`
+- Market news items show `source_name` (citation) and a **Read full story** link when `url` is present; otherwise muted “No link” (no invented URLs)
+- Fed / snapshot / levels / scenarios / catalysts live in a collapsible **Details** section (closed by default)
+- Stocks table sorts `high_conviction` → `watchlist` → `avoid`; click a row to expand inline analysis from `tickers[]`
+- Robinhood helpers: ticker & current price link to `https://robinhood.com/stocks/{TICKER}`
+
 ## Update data
 
 ### Han View (`data/latest.json`)
@@ -35,7 +45,7 @@ Edit or replace `data/latest.json` on `main`. The dashboard fetches `./data/late
 
 ### Cary market intelligence (`data/market.json`)
 
-**Cary publishes** `data/market.json` on `main` (`schema_version: 1`). The Market pulse section fetches `./data/market.json` in parallel with Han View data. If the market file is missing or fails, a small inline notice is shown and Han View still renders.
+**Cary publishes** `data/market.json` on `main` (`schema_version: 1`). The Market tab fetches `./data/market.json` in parallel with Han View data. If the market file is missing or fails, the Market tab shows a notice and Stocks still renders.
 
 Do not replace Cary's live payload with ad-hoc sample shapes — keep the locked dashboard schema (see below).
 
@@ -43,13 +53,14 @@ Do not replace Cary's live payload with ad-hoc sample shapes — keep the locked
 
 | Path | Role |
 |------|------|
-| `index.html` | App shell (Market pulse above Han View hero) |
-| `styles.css` | Dark theme base styles (includes `[hidden]` panel fix) |
-| `theme.css` | Layout / table / card styles |
-| `market.css` | Market pulse styles |
-| `lib.js` | Shared helpers |
-| `market.js` | Cary market pulse renderer |
-| `app.js` | Parallel fetch + Han View + footer |
+| `index.html` | App shell (two-tab layout) |
+| `styles.css` | Dark theme base + tab bar (`[hidden]` panel fix) |
+| `theme.css` | Stocks table / strip / expand styles |
+| `market.css` | Market tab + news list styles |
+| `lib.js` | Shared helpers (`robinhoodUrl` / `robinhoodLink`) |
+| `market.js` | Market tab renderer |
+| `stocks.js` | Stocks tab renderer |
+| `app.js` | Parallel fetch + tab switching + footer |
 | `data/latest.json` | Han View trade payload |
 | `data/market.json` | Cary market intelligence payload |
 | `favicon.svg` | Brand mark |
@@ -63,12 +74,12 @@ Locked fields Cary publishes (`schema_version: 1`):
 | `schema_version` | `1` |
 | `generated_at` | ISO-8601 timestamp |
 | `source` | Provenance (e.g. `Cary`) |
-| `disclaimer` | Optional short disclaimer under Market pulse |
+| `disclaimer` | Optional short disclaimer under Market tab |
 | `market_regime` | Regime title (UI also accepts legacy `regime`) |
 | `signal_score` | Numeric score; label bands: +60..+100 Strong Bullish, +25..+59 Bullish, -24..+24 Neutral / Mixed, -25..-59 Bearish, -60..-100 Strong Bearish |
 | `signal_label` | Display label matching the score band |
 | `outlook` | `{ spy, qqq, small_caps, semiconductors, volatility_risk }` |
-| `top_stories[]` | `{ headline, impact, strength, affected[], status? }` — `summary` accepted as fallback for status text |
+| `top_stories[]` | `{ headline, impact, strength, affected[], status?, summary?, source_name?, url? }` — when `url` is present the UI shows **Read full story**; `source_name` is shown as citation |
 | `fed` | `{ bias, current_target, next_decision, hike_probability_pct, expected_move_bp, expected_target, key_event }` |
 | `catalysts` | `{ top_bullish, top_bearish, most_important_today, next_extreme_event: { when, what } }` |
 | `scenarios` | `bull` / `base` / `bear` with `probability_pct` + `summary` |
@@ -84,9 +95,9 @@ Top-level fields:
 - `generated_at` — ISO-8601 timestamp (shown in header/footer)
 - `source` — data provenance string
 - `market_context` — e.g. `{ "fomc": "YYYY-MM-DD", "note": "..." }`
-- `best_opportunity` — hero card (ticker, action, levels, views)
-- `dashboard` — table rows
-- `tickers` — expandable Han view vs my analysis cards
+- `best_opportunity` — compact Stocks strip (ticker, action, price)
+- `dashboard` — table rows (expandable)
+- `tickers` — deep analysis matched by ticker into row expand panels
 
 ### `best_opportunity.action` values
 
