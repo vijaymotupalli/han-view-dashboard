@@ -1,0 +1,159 @@
+/* ---- Market pulse ---- */
+.market-pulse {
+  padding: 1.25rem 1.35rem 1.4rem;
+  margin: 0 0 1.25rem;
+  background: linear-gradient(145deg, rgba(129, 140, 248, 0.1), rgba(34, 211, 238, 0.05)), var(--bg-panel);
+  border-color: rgba(129, 140, 248, 0.28);
+}
+.market-notice {
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px dashed rgba(251, 191, 36, 0.4);
+  background: rgba(251, 191, 36, 0.08);
+  color: var(--amber);
+  font-size: 0.875rem;
+}
+.market-top {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;
+}
+.market-regime {
+  margin: 0; font-size: clamp(1.2rem, 3vw, 1.55rem); font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.market-source { margin: 0.3rem 0 0; color: var(--text-muted); font-size: 0.8rem; }
+.signal-block {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 0.4rem; text-align: right;
+}
+.signal-score {
+  font-family: var(--mono); font-size: clamp(2rem, 5vw, 2.75rem); font-weight: 700;
+  line-height: 1; letter-spacing: -0.04em;
+}
+.signal-label-badge {
+  display: inline-flex; border-radius: 999px; padding: 0.3rem 0.75rem;
+  font-size: 0.72rem; font-weight: 600; border: 1px solid var(--border);
+}
+.signal-strong-bull .signal-score, .signal-label-badge.signal-strong-bull { color: var(--green); }
+.signal-bull .signal-score, .signal-label-badge.signal-bull { color: var(--green); }
+.signal-neutral .signal-score, .signal-label-badge.signal-neutral { color: var(--amber); }
+.signal-bear .signal-score, .signal-label-badge.signal-bear { color: var(--rose); }
+.signal-strong-bear .signal-score, .signal-label-badge.signal-strong-bear { color: var(--rose); }
+.signal-label-badge.signal-strong-bull, .signal-label-badge.signal-bull {
+  border-color: rgba(52, 211, 153, 0.4); background: rgba(52, 211, 153, 0.12);
+}
+.signal-label-badge.signal-neutral {
+  border-color: rgba(251, 191, 36, 0.4); background: rgba(251, 191, 36, 0.1);
+}
+.signal-label-badge.signal-bear, .signal-label-badge.signal-strong-bear {
+  border-color: rgba(251, 113, 133, 0.4); background: rgba(251, 113, 133, 0.12);
+}
+.outlook-chips {
+  display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.1rem;
+}
+.outlook-chip {
+  display: inline-flex; flex-direction: column; gap: 0.15rem;
+  min-width: 5.5rem; padding: 0.5rem 0.75rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: rgba(7, 11, 20, 0.4);
+}
+.outlook-label {
+  font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim);
+}
+.outlook-value { font-family: var(--mono); font-size: 0.8rem; font-weight: 600; }
+.impact-bullish, .outlook-chip.impact-bullish { color: var(--green); }
+.impact-bearish, .outlook-chip.impact-bearish { color: var(--rose); }
+.impact-neutral, .outlook-chip.impact-neutral { color: var(--amber); }
+.outlook-chip.impact-bullish {
+  border-color: rgba(52, 211, 153, 0.3); background: rgba(52, 211, 153, 0.08);
+}
+.outlook-chip.impact-bearish {
+  border-color: rgba(251, 113, 133, 0.3); background: rgba(251, 113, 133, 0.08);
+}
+.outlook-chip.impact-neutral {
+  border-color: rgba(251, 191, 36, 0.28); background: rgba(251, 191, 36, 0.07);
+}
+.market-subhead {
+  margin: 0 0 0.65rem; font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 0.07em; color: var(--text-muted);
+}
+.story-list { list-style: none; margin: 0 0 1.1rem; padding: 0; display: grid; gap: 0.65rem; }
+.story-item {
+  padding: 0.75rem 0.85rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: rgba(7, 11, 20, 0.35);
+}
+.story-head {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 0.25rem;
+}
+.story-headline { font-weight: 600; font-size: 0.9rem; flex: 1 1 auto; }
+.impact-badge {
+  display: inline-flex; border-radius: 999px; padding: 0.2rem 0.55rem;
+  font-size: 0.68rem; font-weight: 600; border: 1px solid var(--border);
+}
+.impact-badge.impact-bullish {
+  color: var(--green); border-color: rgba(52, 211, 153, 0.35); background: rgba(52, 211, 153, 0.1);
+}
+.impact-badge.impact-bearish {
+  color: var(--rose); border-color: rgba(251, 113, 133, 0.35); background: rgba(251, 113, 133, 0.1);
+}
+.impact-badge.impact-neutral {
+  color: var(--amber); border-color: rgba(251, 191, 36, 0.35); background: rgba(251, 191, 36, 0.1);
+}
+.story-strength { font-size: 0.68rem; padding: 0.2rem 0.5rem; }
+.story-affected {
+  font-family: var(--mono); font-size: 0.72rem; color: var(--text-dim); margin-bottom: 0.25rem;
+}
+.story-summary { margin: 0; font-size: 0.82rem; color: var(--text-muted); }
+.summary-strip {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.55rem; margin-bottom: 1rem;
+}
+.summary-item {
+  padding: 0.65rem 0.75rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: rgba(7, 11, 20, 0.4);
+}
+.summary-item .label {
+  display: block; font-size: 0.65rem; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--text-dim); margin-bottom: 0.2rem;
+}
+.summary-item .value { font-size: 0.82rem; font-weight: 500; }
+.scenario-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.55rem;
+}
+@media (max-width: 720px) { .scenario-row { grid-template-columns: 1fr; } }
+.scenario-card {
+  display: flex; flex-direction: column; gap: 0.2rem;
+  padding: 0.65rem 0.75rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: rgba(7, 11, 20, 0.35); font-size: 0.8rem;
+}
+.scenario-name { font-weight: 700; font-family: var(--mono); font-size: 0.78rem; }
+.scenario-detail { color: var(--text-muted); }
+.scenario-levels { font-family: var(--mono); font-size: 0.72rem; color: var(--text-dim); }
+.scenario-bull { border-color: rgba(52, 211, 153, 0.28); }
+.scenario-bull .scenario-name { color: var(--green); }
+.scenario-base { border-color: rgba(96, 165, 250, 0.28); }
+.scenario-base .scenario-name { color: var(--blue); }
+.scenario-bear { border-color: rgba(251, 113, 133, 0.28); }
+.scenario-bear .scenario-name { color: var(--rose); }
+
+.fed-strip, .snapshot-chips, .levels-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.55rem;
+  margin-bottom: 1rem;
+}
+.snapshot-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.levels-note { grid-column: 1 / -1; }
+.market-disclaimer {
+  margin: 1rem 0 0;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  border-top: 1px solid var(--border);
+  padding-top: 0.75rem;
+}
+
+@media (max-width: 480px) {
+  .market-pulse { padding: 1.05rem; }
+}
