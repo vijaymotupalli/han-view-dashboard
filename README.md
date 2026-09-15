@@ -7,7 +7,7 @@ Dark-mode-first, mobile-friendly static dashboard with a **two-tab** layout:
 
 **Not financial advice.** This site is for research and educational purposes only. Trading involves risk of loss.
 
-Feeds are stored in **Supabase** (`public.dashboard_feeds`) with RLS: **authenticated SELECT only**. The static GitHub Pages site uses magic-link auth (email OTP) via the public anon key.
+Feeds are stored in **Supabase** (`public.dashboard_feeds`) with RLS: **authenticated SELECT only**. The static GitHub Pages site uses **Google OAuth** (primary) plus magic-link auth (email OTP fallback) via the public anon key.
 
 > Migration note: repo folder / Pages path may still use the historical `han-view-dashboard` name; UI branding is **Trade Desk**. Feed row ids `han_view` and `cary_market` are unchanged DB keys.
 
@@ -16,6 +16,8 @@ Feeds are stored in **Supabase** (`public.dashboard_feeds`) with RLS: **authenti
 **https://vijaymotupalli.github.io/han-view-dashboard/**
 
 ## Auth setup (required once)
+
+### 1. URL configuration
 
 In **Supabase Dashboard → Authentication → URL Configuration**, set:
 
@@ -30,9 +32,22 @@ In **Supabase Dashboard → Authentication → URL Configuration**, set:
 - `https://vijaymotupalli.com/han-view-dashboard/` (if using a custom domain)
 - `http://localhost:5500/` (optional, local preview)
 
+### 2. Google OAuth provider
+
+1. **Google Cloud Console** → APIs & Services → Credentials → Create **OAuth client ID** (Application type: **Web application**).
+2. Under **Authorized redirect URIs**, add:
+   - `https://umkbxexijazlpqbjwvlb.supabase.co/auth/v1/callback`
+3. Copy the Client ID and Client Secret.
+4. **Supabase Dashboard → Authentication → Providers → Google** → enable, paste Client ID + Secret, save.
+5. Confirm Site URL + Redirect URLs include `https://vijaymotupalli.github.io/han-view-dashboard/` (and your custom domain if used).
+
+On the live site, click **Sign in with Google**. After Google / Supabase redirect, you return signed in and feeds load.
+
+### 3. Magic-link fallback (optional)
+
 Also enable **Email** provider / magic link (OTP) under Authentication → Providers.
 
-Then open the live site, enter your email, and click **Email me a magic link**. After you open the email link, you return signed in and feeds load from Supabase.
+Then open the live site and use **Email me a magic link** if you prefer email OTP. After you open the email link, you return signed in and feeds load from Supabase.
 
 `config.js` holds `SUPABASE_URL` + `SUPABASE_ANON_KEY` (anon is public by design with RLS). **Never commit the `service_role` key.**
 
@@ -54,7 +69,7 @@ No build step is required — the site is vanilla HTML/CSS/JS (+ Supabase JS fro
 
 - Sticky tab bar: **Market | Stocks** (`aria-selected` on semantic buttons)
 - Default tab: Market if Cary feed loads, else Stocks; last tab remembered in `localStorage` key `han-dash-tab`
-- Unauthenticated visitors see a centered **Trade Desk** magic-link login card (no Market/Stocks data)
+- Unauthenticated visitors see a centered **Trade Desk** login card: **Sign in with Google** first, then optional magic-link form (no Market/Stocks data)
 - Authenticated users: header shows email + **Sign out**; app fetches `dashboard_feeds` and maps `han_view` → Stocks, `cary_market` → Market
 - Market news items show `source_name` (citation) and a **Read full story** link when `url` is present; otherwise muted “No link” (no invented URLs)
 - Fed / snapshot / levels / scenarios / catalysts live in a collapsible **Details** section (closed by default)
@@ -73,7 +88,7 @@ Repo stubs `data/latest.json` and `data/market.json` are placeholders (`login_re
 | Path | Role |
 |------|------|
 | `index.html` | App shell (login gate + two-tab layout) |
-| `login.css` | Centered premium magic-link auth screen |
+| `login.css` | Centered premium Google + magic-link auth screen |
 | `config.js` | Public Supabase URL + anon key |
 | `styles.css` | Dark theme base + tab bar + auth helpers (`[hidden]` panel fix) |
 | `theme.css` | Stocks table / strip / expand styles |
@@ -81,7 +96,7 @@ Repo stubs `data/latest.json` and `data/market.json` are placeholders (`login_re
 | `lib.js` | Shared helpers (`robinhoodUrl` / `robinhoodLink`) |
 | `market.js` | Market tab renderer |
 | `stocks.js` | Stocks tab renderer |
-| `app.js` | Supabase auth + feed fetch + tab switching + footer |
+| `app.js` | Supabase auth (Google OAuth + magic link) + feed fetch + tab switching + footer |
 | `data/latest.json` | Placeholder (data behind auth) |
 | `data/market.json` | Placeholder (data behind auth) |
 | `favicon.svg` | Brand mark |
@@ -137,7 +152,7 @@ python3 -m http.server 5500
 # then visit http://localhost:5500/
 ```
 
-Add `http://localhost:5500/` to Supabase Redirect URLs for magic-link return.
+Add `http://localhost:5500/` to Supabase Redirect URLs for Google / magic-link return.
 
 ## Disclaimer
 

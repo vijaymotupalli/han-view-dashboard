@@ -23,6 +23,13 @@ if (!cfg.SUPABASE_URL || !cfg.SUPABASE_ANON_KEY) {
 
   let dashboardLoadedForUser = null;
 
+  function authRedirectTo() {
+    return (
+      window.location.origin +
+      window.location.pathname.replace(/\/index\.html$/, "/")
+    );
+  }
+
   function setTab(tab) {
     const marketBtn = $("#tab-btn-market");
     const stocksBtn = $("#tab-btn-stocks");
@@ -203,6 +210,38 @@ if (!cfg.SUPABASE_URL || !cfg.SUPABASE_ANON_KEY) {
     const form = $("#login-form");
     const status = $("#login-status");
     const submit = $("#login-submit");
+    const googleBtn = $("#google-sign-in");
+
+    googleBtn.addEventListener("click", async () => {
+      status.classList.remove("is-error", "is-success");
+      status.textContent = "Redirecting to Google...";
+      googleBtn.disabled = true;
+      submit.disabled = true;
+      try {
+        const { error } = await supabase.auth.signInWithOAuth({
+          provider: "google",
+          options: {
+            redirectTo: authRedirectTo(),
+            queryParams: {
+              access_type: "offline",
+              prompt: "select_account",
+            },
+          },
+        });
+        if (error) throw error;
+      } catch (err) {
+        console.error(err);
+        status.classList.add("is-error");
+        const msg = (err && err.message) || "Google sign-in failed.";
+        const hint =
+          /provider|not enabled|unsupported|oauth/i.test(msg)
+            ? " Enable Google under Supabase Authentication → Providers and paste the OAuth Client ID + Secret."
+            : "";
+        status.textContent = msg + hint;
+        googleBtn.disabled = false;
+        submit.disabled = false;
+      }
+    });
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -211,8 +250,9 @@ if (!cfg.SUPABASE_URL || !cfg.SUPABASE_ANON_KEY) {
       status.classList.remove("is-error", "is-success");
       status.textContent = "Sending magic link...";
       submit.disabled = true;
+      googleBtn.disabled = true;
       try {
-        const redirectTo = window.location.origin + window.location.pathname;
+        const redirectTo = authRedirectTo();
         const { error } = await supabase.auth.signInWithOtp({
           email,
           options: { emailRedirectTo: redirectTo },
@@ -228,6 +268,7 @@ if (!cfg.SUPABASE_URL || !cfg.SUPABASE_ANON_KEY) {
           (err && err.message) || "Could not send magic link. Check Auth redirect URLs.";
       } finally {
         submit.disabled = false;
+        googleBtn.disabled = false;
       }
     });
 
