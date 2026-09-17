@@ -27,15 +27,20 @@
       if (!q || typeof q.price !== "number" || !(q.price > 0)) return;
       const label = formatPrice ? formatPrice(q.price) : String(q.price);
       const pct = typeof q.change_percent === "number" ? q.change_percent : null;
-      document.querySelectorAll('.js-live-price[data-ticker="' + sym + '"]').forEach((el) => {
-        el.textContent = label;
-        el.classList.remove("price-up", "price-down");
-        if (pct != null) {
-          if (pct > 0) el.classList.add("price-up");
-          else if (pct < 0) el.classList.add("price-down");
-        }
-        el.setAttribute("title", "Live quote" + (q.as_of ? " · " + q.as_of : ""));
-      });
+      document
+        .querySelectorAll('.js-live-price[data-ticker="' + sym + '"]')
+        .forEach((el) => {
+          el.textContent = label;
+          el.classList.remove("price-up", "price-down");
+          if (pct != null) {
+            if (pct > 0) el.classList.add("price-up");
+            else if (pct < 0) el.classList.add("price-down");
+          }
+          el.setAttribute(
+            "title",
+            "Live quote" + (q.as_of ? " · " + q.as_of : "")
+          );
+        });
     });
     const stamp = document.querySelector("#live-price-stamp");
     if (stamp) {
