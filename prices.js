@@ -40,7 +40,7 @@
     const stamp = document.querySelector("#live-price-stamp");
     if (stamp) {
       stamp.hidden = false;
-      stamp.textContent = "Prices refreshed";
+      stamp.textContent = "Live prices";
     }
   }
 
@@ -98,6 +98,8 @@
     }
     inFlight = false;
     opts = null;
+    const stamp = document.querySelector("#live-price-stamp");
+    if (stamp) stamp.hidden = true;
   }
 
   window.TradeDeskPrices = { start, stop, refreshOnce };
