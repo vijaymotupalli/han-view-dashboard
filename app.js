@@ -200,6 +200,16 @@ if (!cfg.SUPABASE_URL || !cfg.SUPABASE_ANON_KEY) {
       $("#app").hidden = false;
       renderMarketTab(marketData);
       renderStocksTab(stocksData);
+      if (window.TradeDeskPrices) {
+        window.TradeDeskPrices.stop();
+        if (stocksData) {
+          window.TradeDeskPrices.start({
+            supabase,
+            supabaseUrl: cfg.SUPABASE_URL,
+            anonKey: cfg.SUPABASE_ANON_KEY,
+          });
+        }
+      }
       setTab(pickDefaultTab(marketData, stocksData));
       renderFooter(stocksData, marketData);
     } catch (err) {
@@ -302,6 +312,7 @@ if (!cfg.SUPABASE_URL || !cfg.SUPABASE_ANON_KEY) {
 
     supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "SIGNED_OUT") {
+        if (window.TradeDeskPrices) window.TradeDeskPrices.stop();
         showLoginOnly();
         return;
       }

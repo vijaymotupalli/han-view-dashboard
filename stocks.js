@@ -8,9 +8,31 @@
     formatPrice,
     formatTargets,
     robinhoodLink,
+    robinhoodUrl,
     primaryView,
     CLASS_ORDER,
   } = window.TradeDesk;
+
+
+  function livePriceLink(ticker, label) {
+    const sym = String(ticker || "").trim().toUpperCase();
+    const text = label == null ? "" : String(label);
+    const url = robinhoodUrl(sym);
+    const safeSym = escapeHtml(sym);
+    const safeText = escapeHtml(text);
+    if (!url) {
+      return '<span class="js-live-price" data-ticker="' + safeSym + '">' + safeText + "</span>";
+    }
+    return (
+      '<a class="rh-link price-rh js-live-price" data-ticker="' +
+      safeSym +
+      '" href="' +
+      escapeHtml(url) +
+      '" target="_blank" rel="noopener noreferrer" title="Open on Robinhood">' +
+      safeText +
+      "</a>"
+    );
+  }
 
   function findTickerDetail(tickers, symbol) {
     const key = String(symbol || "").toUpperCase();
@@ -101,7 +123,7 @@
       "</div>" +
       '<div class="strip-right">' +
       '<span class="meta-chip mono">' +
-      robinhoodLink(best.ticker, formatPrice(best.current_price), "rh-link price-rh") +
+      livePriceLink(best.ticker, formatPrice(best.current_price)) +
       "</span>" +
       robinhoodLink(best.ticker, "Open on Robinhood", "meta-chip rh-chip") +
       "</div></div>"
@@ -161,7 +183,7 @@
             escapeHtml(row.company || "") +
             "</span></td>" +
             '<td class="mono current-price-cell">' +
-            robinhoodLink(row.ticker, priceLabel, "rh-link price-rh") +
+            livePriceLink(row.ticker, priceLabel) +
             "</td>" +
             '<td><span class="class-pill class-' +
             cls +
